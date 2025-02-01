@@ -1,8 +1,8 @@
 
-import { DataTypes } from 'sequelize';
-import { define } from '../config/database.js';
-
-const Follow = define('Follow', {
+import { DataTypes, Model } from 'sequelize';
+import sequelize  from '../config/database.js';
+export class Follow extends Model{}
+ Follow.init ( {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -11,7 +11,7 @@ const Follow = define('Follow', {
     followerId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Users',
+            model: 'User',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -19,11 +19,14 @@ const Follow = define('Follow', {
     followingId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Users',
+            model: 'User',
             key: 'id',
         },
         onDelete: 'CASCADE',
     }
+},{
+sequelize,
+modelName:'Follow',
+tableName:'Follow',
+timestamps:true,
 });
-
-export default Follow;

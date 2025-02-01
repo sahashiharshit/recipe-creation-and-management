@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize';
-import { define } from '../config/database.js';
-
-const Favorite = define('Favorite', {
+import { DataTypes, Model } from 'sequelize';
+import sequelize from '../config/database.js';
+export class Favorite extends Model{}
+ Favorite.init({
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -10,7 +10,7 @@ const Favorite = define('Favorite', {
     userId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Users',
+            model: 'User',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -18,11 +18,15 @@ const Favorite = define('Favorite', {
     recipeId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Recipes',
+            model: 'Recipe',
             key: 'id',
         },
         onDelete: 'CASCADE',
     }
-});
+},{
+sequelize,
+modelName:'Favorite',
+tableName:'Favorite',
+timestamps:true,
 
-export default Favorite;
+});

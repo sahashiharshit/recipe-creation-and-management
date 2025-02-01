@@ -1,9 +1,11 @@
-import Admin from "../models/Admin.js";
-import Favorite from "../models/Favorite.js";
-import Follow from "../models/Follow.js";
-import Recipe from "../models/Recipe.js";
-import Review from "../models/Review.js";
-import User  from "../models/Users.js";
+
+import {User}  from "../models/User.js";
+import {Favorite} from "../models/Favorite.js";
+import {Follow} from "../models/Follow.js";
+import {Recipe} from "../models/Recipe.js";
+import {Review} from "../models/Review.js";
+
+import {Admin} from "../models/Admin.js";
 
 
 User.hasMany(Recipe, { foreignKey: 'userId' });

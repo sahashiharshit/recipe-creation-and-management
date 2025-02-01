@@ -1,7 +1,9 @@
-import { DataTypes } from 'sequelize';
-import { define } from '../config/database.js';
+import { DataTypes, Model } from 'sequelize';
+import  sequelize  from '../config/database.js';
 
-const User = define('User', {
+export class User extends Model{}
+
+User.init({
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -28,6 +30,10 @@ const User = define('User', {
         type: DataTypes.STRING,
         allowNull: true,
     }
+},{
+    sequelize,
+    modelName:"User",
+    tableName:'User',
+    timestamps:true,
 });
 
-export default User;

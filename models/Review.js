@@ -1,8 +1,8 @@
-import { DataTypes } from 'sequelize';
-import { define } from '../config/database.js';
+import { DataTypes, Model } from 'sequelize';
+import sequelize from '../config/database.js';
+export class Review extends Model{}
 
-
-const Review = define('Review', {
+Review.init( {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -23,7 +23,7 @@ const Review = define('Review', {
     userId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Users',
+            model: 'User',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -31,10 +31,14 @@ const Review = define('Review', {
     recipeId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Recipes',
+            model: 'Recipe',
             key: 'id',
         },
         onDelete: 'CASCADE',
     }
+},{
+sequelize,
+modelName:'Review',
+tableName:'Review',
+timestamps:true,
 });
-export default Review;

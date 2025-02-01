@@ -1,8 +1,9 @@
-import { DataTypes } from 'sequelize';
-import { define } from '../config/database.js';
+import { DataTypes, Model } from 'sequelize';
+import  sequelize  from '../config/database.js';
 
+export class Recipe extends Model{}
 
-const Recipe = define('Recipe', {
+Recipe.init( {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -43,10 +44,14 @@ const Recipe = define('Recipe', {
     userId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Users',
+            model: 'User',
             key: 'id',
         },
         onDelete: 'CASCADE',
     }
+},{
+sequelize,
+modelName:'Recipe',
+tableName:'Recipe',
+timestamps:true,
 });
-export default Recipe;
