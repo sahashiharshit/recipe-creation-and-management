@@ -1,0 +1,83 @@
+node_modules
+.env
+
+# Description
+# The Recipe Management and Sharing Platform is a web application that allows users to create, share, and discover recipes. Users can browse through a variety of recipes, save their favorites, and contribute their own recipes to the platform. The platform aims to build a community of food enthusiasts who can share their culinary creations and explore new dishes.
+
+
+
+# You have to mainly focus on the Backend of the application. Create and document APIs for all the mentioned features. 
+
+
+
+# Reference : https://www.sharerecipes.com/
+
+# Documentation reference: https://github.com/dinushchathurya/nodejs-ecommerce-api
+
+
+
+
+
+# Key Features
+# User Authentication and Profiles:
+# User Registration and Login: Users can sign up and log in to the platform.
+# Profile Management: Users can manage their profiles, including their personal information, and view their contributed and favorite recipes.
+# Recipe Creation and Management:
+# Recipe Submission: Users can create and submit recipes with detailed information such as ingredients, instructions, cooking time, and servings.
+# Recipe Editing and Deletion: Users can edit or delete their own recipes.
+# Recipe Browsing and Search:
+# Browse Recipes: Users can browse through all the recipes on the platform.
+# Search Functionality: Users can search for recipes based on keywords, ingredients, or categories.
+# Filters: Users can filter recipes by dietary preferences (e.g., vegetarian, vegan, gluten-free), difficulty level, or preparation time.
+# Favorites and Collections:
+# Save Favorites: Users can save recipes to their favorites list for easy access.
+# Create Collections: Users can organize their favorite recipes into collections (e.g., “Desserts”, “Weeknight Dinners”).
+# Rating and Reviews:
+# Rate Recipes: Users can rate recipes they have tried.
+# Leave Reviews: Users can leave reviews and comments on recipes to provide feedback or tips.
+# Social Features:
+# Follow Users: Users can follow other users to see their contributions and favorite recipes.
+# Activity Feed: Users can see updates from the users they follow, such as new recipes or reviews.
+# Admin Dashboard:
+# User Management: Admins can manage user accounts, including banning or approving users.
+# Recipe Management: Admins can manage recipes, including removing inappropriate content.
+
+
+# Technical Requirements
+# Backend
+# Framework: Node.js with Express 
+# Database: PostgreSQL 
+# Authentication: JWT (JSON Web Tokens) for user authentication
+# Search: Implement search functionality 
+# Storage: Use a cloud storage service (e.g., AWS S3) for storing recipe images
+# Frontend
+# React.js (use if you know) or HTML/CSS/JS
+
+
+# Additional Tools
+# Version Control: Git with GitHub 
+# Deployment:, AWS
+
+
+# Implementation Details
+# 1. User Authentication and Profiles
+# Implement user registration and login using JWT for secure authentication.
+# Create profile management endpoints for users to update their personal information and view their contributed and favorite recipes.
+# 2. Recipe Creation and Management
+# Develop endpoints for users to submit, edit, and delete recipes.
+# Ensure recipe data includes necessary details like ingredients, instructions, and images.
+# 3. Recipe Browsing and Search
+# Implement endpoints to browse and search for recipes.
+# Develop filtering options for dietary preferences, difficulty level, and preparation time.
+# 4. Favorites and Collections
+# Create endpoints for users to save recipes to their favorites list and organize them into collections.
+
+
+# 5. Rating and Reviews
+# Develop functionality for users to rate and review recipes.
+# Ensure reviews are associated with user profiles and the respective recipes.
+# 6. Social Features
+# Implement following functionality so users can follow others and see their activities.
+# Create an activity feed to display updates from followed users.
+# 7. Admin Dashboard
+# Develop an admin dashboard for managing users and recipes.
