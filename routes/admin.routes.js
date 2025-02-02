@@ -8,6 +8,8 @@ import { adminAuthMiddleware } from "../middleware/authAdminMiddleware.js";
 const adminRoutes = Router();
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+// Login(Admin only)
 adminRoutes.post('/admin-login',async(req,res)=>{
 const {username,password}= req.body;
 try{
@@ -39,10 +41,16 @@ if(!req.user.isAdmin){
 }
 res.json({message:'Welcome to the admin dashboard'});
 });
-adminRoutes.get('/getAllUsers',(req,res)=>{});
-adminRoutes.delete('/delete-recipe',(req,res)=>{});
-adminRoutes.delete('/delete-user',(req,res)=>{});
-adminRoutes.post('/approve-user',(req,res)=>{});
+//Get all users (Admin only)
+adminRoutes.get('/users',adminAuthMiddleware,(req,res)=>{});
+
+//Delete a recipe (Admin only)
+
+adminRoutes.delete('/recipes/:id',adminAuthMiddleware,(req,res)=>{});
+//Delete a user (Admin only)
+adminRoutes.delete('/users/:id',adminAuthMiddleware,(req,res)=>{});
+//Get all recipes (Admin only)
+adminRoutes.get('/recipes',adminAuthMiddleware,(req,res)=>{});
 
 
 

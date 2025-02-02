@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-app.use("/", routes);
+app.use("/recipe-management", routes);
 server.listen(3000, () => {
   console.log(`Server Running at port:`, 3000);
 });

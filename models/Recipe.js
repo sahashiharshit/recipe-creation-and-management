@@ -29,10 +29,7 @@ Recipe.init( {
         type: DataTypes.INTEGER, // in minutes
         allowNull: false,
     },
-    servings: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
+    
     category: {
         type: DataTypes.STRING,
         allowNull: false,
