@@ -4,6 +4,8 @@ import { Admin } from "../models/Admin.js";
 import encryptionservice from "../helpers/encryptionservice.js";
 import ErrorChecker from "../helpers/ErrorChecker.js";
 import { adminAuthMiddleware } from "../middleware/authAdminMiddleware.js";
+import { User } from "../models/User.js";
+import { Recipe } from "../models/Recipe.js";
 
 const adminRoutes = Router();
 
@@ -42,15 +44,50 @@ if(!req.user.isAdmin){
 res.json({message:'Welcome to the admin dashboard'});
 });
 //Get all users (Admin only)
-adminRoutes.get('/users',adminAuthMiddleware,(req,res)=>{});
+adminRoutes.get('/users',adminAuthMiddleware,async(req,res)=>{
+try {
+    const users = await User.findAll({attributes:{exclude:['password']}});
+    res.status(200).json(users);
+} catch (error) {
+    res.status(500).json(error);
+}
+});
 
 //Delete a recipe (Admin only)
 
-adminRoutes.delete('/recipes/:id',adminAuthMiddleware,(req,res)=>{});
+adminRoutes.delete('/recipes/:id',adminAuthMiddleware,async(req,res)=>{
+    try {
+        const recipeid = req.params.id;
+        const deletedRecipe = await Recipe.destroy({where:{id:recipeid}});
+        res.json(200).status({message:'Recipe Deleted'});
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+
+});
 //Delete a user (Admin only)
-adminRoutes.delete('/users/:id',adminAuthMiddleware,(req,res)=>{});
+adminRoutes.delete('/users/:id',adminAuthMiddleware,async(req,res)=>{
+    try {
+        await User.destroy({where:{id:req.params.id}});
+        res.json({message:'User Deleted'});
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+
+});
 //Get all recipes (Admin only)
-adminRoutes.get('/recipes',adminAuthMiddleware,(req,res)=>{});
+adminRoutes.get('/recipes',adminAuthMiddleware,async(req,res)=>{
+
+try {
+    const { page = 1 } = req.query;
+    const limit = 20;
+    const offset = (page - 1) * limit;
+    const getAllRecipes = await Recipe.findAll({limit,offset,order:[['createdAt','DESC']]});
+    res.status(200).json(getAllRecipes);
+} catch (error) {
+    res.status(500).json({error:error.message});
+}
+});
 
 
 
