@@ -1,49 +1,18 @@
 /backend/node_modules
-.env
+/backend/.env
 
+/frontend/node_modules
+/frontend/logs
+/frontend/*.log
+/frontend/dist
+/frontend/dist-ssr
+/frontend/*.local
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
 
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/recipe-app/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/recipe-app/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
+/frontend/yarn-error.log*
+/frontend/pnpm-debug.log*
+/frontend/lerna-debug.log*
 # Description
 # The Recipe Management and Sharing Platform is a web application that allows users to create, share, and discover recipes. Users can browse through a variety of recipes, save their favorites, and contribute their own recipes to the platform. The platform aims to build a community of food enthusiasts who can share their culinary creations and explore new dishes.
 
