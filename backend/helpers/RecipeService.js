@@ -28,13 +28,21 @@ class RecipeService {
     }
   };
   
-  updateRecipe= async (id,userId,updatedData) => {
+  updateRecipe= async (id,updatedRecipe) => {
     try {
-        const [updated] = await Recipe.update(
-            updatedData,
-            { where: { id: id, userId: userId } }
+    
+      const recipe = await Recipe.findByPk(id);
+      if (!recipe) return null; // Recipe not found
+      if (recipe.userId.toString() !== updatedRecipe.userId) return null; // Unauthorized
+        
+        const [rowsUpdated] = await Recipe.update(
+          updatedRecipe,
+          {where:{id:id},
+          }
+            
         );
-        return updated;
+        if(rowsUpdated===0) return null;
+        return await Recipe.findByPk(id); 
     } catch (error) {
         throw error;
     }

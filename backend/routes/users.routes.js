@@ -9,7 +9,9 @@ const usersRoutes = Router();
 usersRoutes.get("/profile", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
+    
     const profile = await UsersService.getProfile(userId);
+  
     if (!profile)
       return res
         .status(404)
