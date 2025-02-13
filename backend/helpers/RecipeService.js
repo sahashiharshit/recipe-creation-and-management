@@ -21,7 +21,7 @@ class RecipeService {
   getSingleRecipe = async (id) => {
     try {
       const getRecipe = await Recipe.findByPk(id);
-    
+      
       return getRecipe;
     } catch (error) {
       throw error;

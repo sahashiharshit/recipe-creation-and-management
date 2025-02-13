@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
 
 const UpdateRecipe = () => {
   const { id } = useParams();
@@ -29,11 +31,12 @@ const UpdateRecipe = () => {
           `http://localhost:3000/api/recipes/${id}`,
           { withCredentials: true }
         );
-        console.log(response.data);
+      
         setRecipe(response.data);
         setPreview(response.data.imageUrl);
       } catch (error) {
-        console.error("Error fetching recipe:", error);
+        
+        showErrorToast("❌⚠️ Error fetching recipe");
       }
     };
     fetchRecipe();
@@ -67,7 +70,7 @@ const UpdateRecipe = () => {
     }
   };
 
-  const uploadToS3 = async (file) => {
+  const uploadToS3 = async (file,id) => {
     if (!file) return null;
     try {
       setUploading(true);
@@ -75,13 +78,13 @@ const UpdateRecipe = () => {
       const { data } = await axios.get(
         "http://localhost:3000/api/recipes/s3/upload-url",
         {
-          params: { filename: file.name, filetype: file.type },
+          params: { filename: file.name, filetype: file.type,id },
           withCredentials: true,
         }
       );
 
       const { uploadUrl, fileUrl } = data; // Pre-signed S3 URL & final file URL
-      console.log("Output of data:", data);
+      
       // Step 2: Upload image to S3 using the pre-signed URL
       await axios.put(uploadUrl, file, {
         headers: { "Content-Type": file.type },
@@ -89,7 +92,7 @@ const UpdateRecipe = () => {
       setUploading(false);
       return fileUrl.split("?")[0]; //return the stord S3 url
     } catch (error) {
-      console.error("Error uploading image:", error);
+     showErrorToast("🚨❌ Error uploading image")
       setUploading(false);
       return null;
     }
@@ -98,30 +101,36 @@ const UpdateRecipe = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let updatedImageUrl = recipe.imageUrl;
-
-    if (imageFile) {
-      const uploadedImageUrl = await uploadToS3(imageFile);
-      if (uploadedImageUrl) {
-        updatedImageUrl = uploadedImageUrl;
-      }
-    }
-    const updatedRecipe = {
-      ...recipe,
-      imageUrl: updatedImageUrl,
-    };
-
+    
     try {
+      const res = await axios.get(`http://localhost:3000/api/recipes/${id}`,{withCredentials:true});
+      const oldImageUrl = res.data.imageUrl;
+
+      if (imageFile) {
+        const uploadedImageUrl = await uploadToS3(imageFile, id);
+        if (uploadedImageUrl) {
+          updatedImageUrl = uploadedImageUrl;
+        }
+      }
+
+      const updatedRecipe = {
+        ...recipe,
+        imageUrl: updatedImageUrl,
+      };
+
       await axios.put(
         `http://localhost:3000/api/recipes/update/${id}`,
-        updatedRecipe,
-        {
-          withCredentials: true,
-        }
+        { updatedRecipe, oldImageUrl: imageFile ? oldImageUrl : null },
+        { withCredentials: true }
       );
+
+      showSuccessToast("📦✅ Recipe updated successfully!");
       navigate(`/recipe/${id}`);
     } catch (error) {
-      console.error("Error updating recipe:", error);
+      console.error("Update error:", error.response?.data || error.message);
+      showErrorToast("🚨❌ Error updating recipe");
     }
+   
   };
   return (
     <div className="post-recipe-container">

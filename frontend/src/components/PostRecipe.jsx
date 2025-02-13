@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/postRecipe.css";
+import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
 const PostRecipe = () => {
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
@@ -59,7 +61,7 @@ const PostRecipe = () => {
       );
 
       const { uploadUrl, fileUrl } = data; // Pre-signed S3 URL & final file URL
-      console.log("Output of data:", data);
+     
       // Step 2: Upload image to S3 using the pre-signed URL
       await axios.put(uploadUrl, imageFile, {
         headers: { "Content-Type": imageFile.type },
@@ -67,7 +69,7 @@ const PostRecipe = () => {
       setUploading(false);
       return fileUrl; //return the stord S3 url
     } catch (error) {
-      console.error("Error uploading image:", error);
+     
       setUploading(false);
       return null;
     }
@@ -79,7 +81,7 @@ const PostRecipe = () => {
     const s3Url = await uploadToS3();
 
     if (!s3Url) {
-      alert("Image upload failed! Please try again.");
+      showErrorToast("🚨❌ Error uploading image");
       return;
     }
 
@@ -92,9 +94,10 @@ const PostRecipe = () => {
       await axios.post("http://localhost:3000/api/recipes/create", recipeData, {
         withCredentials: true,
       });
+      showSuccessToast("📦✅ Recipe added successfully!");
       navigate("/");
     } catch (error) {
-      console.error("Error posting recipe", error);
+      showErrorToast("🚨❌ Error adding Recipe. Please try again!")
     }
   };
 

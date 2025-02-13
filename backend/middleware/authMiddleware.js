@@ -1,14 +1,14 @@
 
 
 import { verifyToken } from '../config/jwthelper.js';
-import Userauthentication from '../helpers/userauthentication.js';
 
 
 
 export const authMiddleware = async(req,res,next)=>{
+
     const token = req.cookies?.token;
     if(!token){
-        return res.status(401).json({error:'Unauthorized. No token provided.'});
+        return res.status(404).json({error:'Unauthorized. No token provided.'});
     }
     try{
         const decoded = verifyToken(token);

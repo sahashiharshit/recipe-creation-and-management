@@ -3,7 +3,7 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 import RecipeService from "../helpers/RecipeService.js";
 import ErrorChecker from "../helpers/ErrorChecker.js";
 import s3 from "../config/awshelper.js";
-import {PutObjectCommand} from "@aws-sdk/client-s3";
+import {DeleteObjectCommand, PutObjectCommand} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import dotenv from 'dotenv';
 
@@ -29,10 +29,12 @@ recipeRoutes.post('/create',authMiddleware,async(req,res)=>{
 
 });
 
-recipeRoutes.get("/s3/upload-url",async (req,res)=>{
+recipeRoutes.get("/s3/upload-url",authMiddleware,async (req,res)=>{
    
-    const {filename,filetype}= req.query;
-    const key =`recipes/${Date.now()}-${filename}`;
+   const {filename,filetype,id}= req.query;
+    
+    
+    const key =`recipes/${id}-${Date.now()}-${filename}`;
     const command = new PutObjectCommand({
     Bucket:process.env.AWS_S3_BUCKETNAME,
     Key:key,
@@ -79,7 +81,9 @@ recipeRoutes.get('/:id',authMiddleware,async(req,res)=>{
     try {
 
         const id = req.params.id;
+        
         const recipe = await RecipeService.getSingleRecipe(id);
+       
         if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
         res.status(200).json(recipe);
     } catch (error) {
@@ -92,11 +96,19 @@ recipeRoutes.put('/update/:id',authMiddleware,async(req,res)=>{
     try {
         const {id} = req.params;
         const userId = req.user.id;
-        const updatedRecipe = req.body;
+        const {updatedRecipe,oldImageUrl} = req.body;
+        
         const newUpdatedRecipe ={...updatedRecipe,userId};
+        
+        
         const updateData = await RecipeService.updateRecipe(id,newUpdatedRecipe);
-       
         if (!updateData) return res.status(404).json({ error: 'Recipe not found or unauthorized' });
+        if (oldImageUrl) {
+            const oldKey = oldImageUrl.split(".com/")[1];
+            const deleteParams = { Bucket: process.env.AWS_S3_BUCKETNAME, Key: oldKey };
+            await s3.send(new DeleteObjectCommand(deleteParams));
+          }
+       
       
         res.status(200).json(updateData);
     } catch (error) {

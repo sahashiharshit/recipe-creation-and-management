@@ -1,32 +1,37 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+
 import "../assets/styles/Auth.css"
 import {FaEnvelope,FaLock} from 'react-icons/fa';
 import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error,setError]= useState("");
-  
-  const { login } = useAuth();
-  const navigate = useNavigate();
 
+import { useAdminAuth } from "../context/AdminAuthContext";
+const AdminLogin = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+ 
+  
+  const navigate = useNavigate();
+  const { adminLogin } = useAdminAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+  
     
     try {
-      const response = await login(email, password);
+      
+        const response = await adminLogin(username, password);
+        console.log(response);
       if (response.success) {
-        navigate("/"); // ✅ Redirect to homepage after successful login
+        navigate("/admin/dashboard"); // ✅ Redirect to homepage after successful login
         showSuccessToast("🔓✅ Logged in successfully!");
       } else {
-        setError(response.error); // ✅ Show error message on failed login
+        
         showErrorToast("🔑❌ Invalid credentials!");
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.",error);
+      showErrorToast("Something went wrong. Please try again.");
     }
   };
 
@@ -34,17 +39,16 @@ const Login = () => {
     <div className="login-container">
       <form onSubmit={handleSubmit} className="auth-card">
         <h1 className="auth-title">Login</h1>
-        {error && <p className="auth-error">{error}</p>} {/* ✅ Display error */}
-
+       
         <div className="input-group">
        
           <div className="input-container">
           <FaEnvelope className="icon" /> {/* 👈 Added Icon */}
             <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -61,16 +65,17 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            {/* <button type="button" onClick={() => setShowPassword(!showPassword)}>👁️</button> */}
           </div>
         </div>
 
-        <button type="submit" className="auth-btn">Login</button>
-        <p className="auth-footer">
+        <button type="submit" className="auth-btn" >Login</button>
+        {/* <p className="auth-footer">
           Don&apos;t have an account? <a href="/signup" className="auth-link">Sign Up</a>
-        </p>
+        </p> */}
       </form>
     </div>
   );
 };
 
-export default Login;
+export default AdminLogin;

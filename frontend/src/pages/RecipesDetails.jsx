@@ -1,14 +1,16 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaClock, FaUtensils, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import '../assets/styles/RecipeDetails.css';
+import { showErrorToast } from "../utils/ToastUtils";
 const RecipeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error,setError] =useState(null);
+  const [isOwner, setIsOwner] = useState(false); // ✅ Track ownership
   useEffect(() => {
   
     const fetchRecipe =async()=>{
@@ -16,14 +18,23 @@ const RecipeDetails = () => {
       try {
        const res = await axios.get(`http://localhost:3000/api/recipes/${id}`, { withCredentials: true });
        if (res.data) {
+      
         setRecipe(res.data);
+        const userRes = await axios.get("http://localhost:3000/api/users/profile", {
+          withCredentials: true, // ✅ Ensure cookies are sent
+        });
+        if (userRes.data?.id) {
+          setIsOwner(res.data.userId === userRes.data.id); // ✅ Compare userId
+        }
+        
       } else {
-        setError("Recipe not found");
+       
+        showErrorToast("❌⚠️ Recipe not found");
       }
        
       } catch (error) {
-        console.error("Error fetching recipe:", error);
-        setError("Failed to load recipe");
+        showErrorToast("🔄❌ Could not process request!");
+        
       }finally{
         setLoading(false);
       
@@ -33,17 +44,21 @@ const RecipeDetails = () => {
     fetchRecipe();
 
   }, [id]);
-  if (loading) return <p>No recipe details</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p>Loading recipe details...</p>;
+  
 
   return (
     <div className="recipe-container">
       {/* Recipe Header */}
       <div className="recipe-header">
         <h1 className="recipe-title">{recipe.title}</h1>
+        
+        {/* ✅ Show Edit Button Only if User is Owner */}
+        {isOwner && (
         <button className="edit-button" onClick={() => navigate(`/edit-recipe/${id}`)}>
           <FaEdit className="edit-icon" /> Edit Recipe
         </button>
+         )}
       </div>
 
       {/* Recipe Image */}

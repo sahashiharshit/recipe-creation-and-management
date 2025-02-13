@@ -12,7 +12,7 @@ const server = http.createServer(app);
 app.use(
   cors({
     origin: (origin, callback) => {
-      const allowedOrigins = ["http://127.0.0.1:5173", "http://localhost:5173"];
+      const allowedOrigins = ["http://127.0.0.1:5173", "http://localhost:5173","http://192.168.31.219:5173"];
 
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);

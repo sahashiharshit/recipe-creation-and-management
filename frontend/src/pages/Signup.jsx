@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; // Import icons
 import "../assets/styles/Auth.css";
+import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
 const Signup =()=>{
 
 const [formData,setFormData] = useState({
@@ -29,9 +30,11 @@ try {
     });
     if(res.status===201){
     navigate('/login');
+    showSuccessToast("🎉✅ Registration completed successfully!")
     }
 } catch (error) {
     setError(error.response?.data?.error || "Something went wrong");
+    showErrorToast("🚨❌ Action failed. Please try again!");
 }
 };
 return (
