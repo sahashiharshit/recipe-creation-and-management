@@ -9,46 +9,50 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    // const controller = new AbortController(); // 🔹 Fix memory leak issue
-   const fetchUser= async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/api/users/profile", {
-          withCredentials: true,
-          // signal: controller.signal,
-        });
-        
-        setUser(res.data);
-      } catch (error) {
-        if (error.response?.status === 404) {
-          setUser(null); // ✅ Auto-logout on forbidden access
-        }
+ 
+// ✅ Fetch user profile
+  const fetchUser = useCallback(async ()=>{
+    try {
+      const res = await axios.get("http://localhost:3000/api/users/profile", {
+        withCredentials: true,
        
-      } finally {
-        setLoading(false);
+      });
+      
+      setUser(res.data);
+    } catch (error) {
+      if (error.response?.status === 401||error.response?.status===403) {
+        setUser(null); // ✅ Auto-logout on forbidden access
       }
-    };
+     
+    } finally {
+      setLoading(false);
+    }
+  
+  },[]);
+  // ✅ Run once when component mounts
+  useEffect(() => {
+    
     fetchUser();
-    // return () => controller.abort();  // 🔹 Cleanup function
-  }, [user]);
-
+   
+  }, [fetchUser]);
    // ✅ Login function with error handling
   const login = useCallback(async (email, password) => {
     
     try {
-      const res = await axios.post(
+       await axios.post(
         "http://localhost:3000/api/auth/login",
         { email, password },
         { withCredentials: true }
       );
-      setUser(res.data);
+      await fetchUser();
+      
      
       return { success: true }; // 🔹 Return success
     } catch (error) {
       return { success: false, error: error.response?.data?.message || "Login failed" };
     }
     
-  },[]);
+  },[fetchUser]);
 
   // ✅ Logout function with error handling
   const logout = useCallback(async()=>{

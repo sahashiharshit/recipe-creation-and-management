@@ -2,8 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; // Import icons
-import "../assets/styles/Auth.css";
-import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
+import "../assets/styles/Signup.css";
+import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const Signup =()=>{
 
 const [formData,setFormData] = useState({

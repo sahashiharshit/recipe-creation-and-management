@@ -58,7 +58,7 @@ class RecipeService {
   }
   getAllRecipes= async(limit,offset)=>{
     try {
-        const allRecipes = await Recipe.findAll({limit,offset,order:[['createdAt','DESC']]});
+        const allRecipes = await Recipe.findAll({where:{isApproved:true}},{limit,offset,order:[['createdAt','DESC']]});
         return allRecipes;
     } catch (error) {
         throw error;

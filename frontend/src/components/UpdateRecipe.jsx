@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
+import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 
 const UpdateRecipe = () => {
   const { id } = useParams();

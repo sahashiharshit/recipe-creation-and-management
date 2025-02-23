@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../assets/styles/Auth.css"
 import {FaEnvelope,FaLock} from 'react-icons/fa';
-import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
+import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 
 import { useAdminAuth } from "../context/AdminAuthContext";
 const AdminLogin = () => {
@@ -22,7 +22,7 @@ const AdminLogin = () => {
     try {
       
         const response = await adminLogin(username, password);
-        console.log(response);
+        
       if (response.success) {
         navigate("/admin/dashboard"); // ✅ Redirect to homepage after successful login
         showSuccessToast("🔓✅ Logged in successfully!");
@@ -38,7 +38,7 @@ const AdminLogin = () => {
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="auth-card">
-        <h1 className="auth-title">Login</h1>
+        <h1 className="auth-title">Admin Login</h1>
        
         <div className="input-group">
        

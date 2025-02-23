@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import "../assets/styles/Auth.css"
 import {FaEnvelope,FaLock} from 'react-icons/fa';
-import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
+import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -45,6 +45,11 @@ Recipe.init( {
             key: 'id',
         },
         onDelete: 'CASCADE',
+    },
+    isApproved:{
+    
+    type:DataTypes.BOOLEAN,
+    defaultValue:false
     }
 },{
 sequelize,

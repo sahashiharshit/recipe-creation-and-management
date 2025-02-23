@@ -4,13 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaClock, FaUtensils, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import '../assets/styles/RecipeDetails.css';
-import { showErrorToast } from "../utils/ToastUtils";
+import { showErrorToast } from "../utils/toastUtils";
 const RecipeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false); // ✅ Track ownership
+  const [recipeOwner,setRecipeOwner] = useState(null);
   useEffect(() => {
   
     const fetchRecipe =async()=>{
@@ -23,8 +24,12 @@ const RecipeDetails = () => {
         const userRes = await axios.get("http://localhost:3000/api/users/profile", {
           withCredentials: true, // ✅ Ensure cookies are sent
         });
-        if (userRes.data?.id) {
-          setIsOwner(res.data.userId === userRes.data.id); // ✅ Compare userId
+        if (userRes.data?.id===res.data.userId) {
+          setIsOwner(userRes.data.id); // ✅ Compare userId
+        }else{
+        const user = await axios.get(`http://localhost:3000/api/users/${res.data.userId}`,{withCredentials:true});
+          console.log(user);
+          setRecipeOwner(user.data);
         }
         
       } else {
@@ -48,7 +53,7 @@ const RecipeDetails = () => {
   
 
   return (
-    <div className="recipe-container">
+    <div className="recipe-details-container">
       {/* Recipe Header */}
       <div className="recipe-header">
         <h1 className="recipe-title">{recipe.title}</h1>
@@ -59,6 +64,7 @@ const RecipeDetails = () => {
           <FaEdit className="edit-icon" /> Edit Recipe
         </button>
          )}
+         {recipeOwner && (<p className="owner-name">Posted By: { (recipeOwner.username).charAt(0).toUpperCase()+ (recipeOwner.username).slice(1)}</p>)}
       </div>
 
       {/* Recipe Image */}

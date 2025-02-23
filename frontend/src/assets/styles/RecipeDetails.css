@@ -1,144 +1,117 @@
-/* General Container */
-.recipe-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 25px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Recipe Header */
-  .recipe-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .recipe-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Edit Button */
-  .edit-button {
-    background: #ff6600;
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: 0.3s ease;
-  }
-  
-  .edit-button:hover {
-    background: #e65c00;
-  }
-  
-  .edit-icon {
-    margin-right: 8px;
-  }
-  
-  /* Recipe Image */
-  .recipe-image-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-  }
-  
-  .recipe-image {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 10px;
-    object-fit: cover;
-  }
-  
-  /* Recipe Info */
+/* Recipe Details Styles */
+.recipe-details-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.edit-button {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.edit-button:hover {
+  background-color: #facc15;
+  color: #1e3a8a;
+}
+
+.recipe-image-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.no-image {
+  font-size: 1rem;
+  color: #777;
+}
+
+.recipe-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.icon {
+  color: #1e3a8a;
+}
+
+.ingredients-section, .instructions-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.ingredients-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ingredients-table th, .ingredients-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.instructions {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+}
+.owner-name{
+
+font-size: 20px;
+color: #1e3a8a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .recipe-info {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  
-  .info-box {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
-    background: #f5f5f5;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-size: 16px;
-    color: #444;
   }
-  
-  .icon {
-    font-size: 22px;
-    color: #ff6600;
-  }
-  
-  /* Ingredients Section */
-  .ingredients-section {
-    margin-top: 30px;
-  }
-  
-  .section-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #444;
-    margin-bottom: 10px;
-    border-bottom: 3px solid #ff6600;
-    padding-bottom: 5px;
-  }
-  
-  /* Ingredients Table */
-  .ingredients-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .ingredients-table th, .ingredients-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .ingredients-table th {
-    background: #ff6600;
-    color: white;
-    font-size: 16px;
-  }
-  
-  .ingredients-table td {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .ingredients-table tr:hover {
-    background: #f9f9f9;
-  }
-  
-  /* Instructions Section */
-  .instructions-section {
-    margin-top: 30px;
-  }
-  
-  .instructions {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #444;
-    background: #fafafa;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  }
-  
+}

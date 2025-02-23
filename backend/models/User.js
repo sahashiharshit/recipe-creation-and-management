@@ -29,7 +29,12 @@ User.init({
     profilePicture: {
         type: DataTypes.STRING,
         allowNull: true,
-    }
+    },
+    isApproved:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
+    },
+    
 },{
     sequelize,
     modelName:"User",

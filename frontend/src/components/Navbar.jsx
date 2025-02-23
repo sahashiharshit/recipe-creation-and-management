@@ -2,7 +2,8 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
-import { showErrorToast, showInfoToast } from "../utils/ToastUtils";
+import { showErrorToast, showInfoToast } from "../utils/toastUtils";
+import { FiLogOut } from "react-icons/fi";
 
 
 const Navbar = () => {
@@ -27,17 +28,19 @@ try {
     
 
   return (
-    <nav >
-      <Link to="/" >Recipe App</Link>
-      <div >
+    <nav className="navbar" >
+      <Link to="/" className="nav-logo">Recipe App</Link>
+      <div className="nav-links" >
         
         {user ? (
-          <><Link to="/profile">Hello, {user.username}</Link>
+          <><p>Hello, {user.username}</p>
+            <Link to="/profile">Profile</Link>
             <Link to="/post-recipe">Post Recipe</Link>
-            <button onClick={handleLogout} >Logout</button>
+            <button onClick={handleLogout} aria-label="Logout"> <FiLogOut /></button>
           </>
         ) : (<>
           <Link to="/login" >Login</Link>
+          <Link to="/admin/login">Admin Login</Link>
           <Link to="/signup" >Signup</Link>
         </>
         

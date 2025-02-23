@@ -2,8 +2,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../assets/styles/postRecipe.css";
-import { showErrorToast, showSuccessToast } from "../utils/ToastUtils";
+import "../assets/styles/PostRecipe.css";
+import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const PostRecipe = () => {
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
@@ -20,6 +20,8 @@ const PostRecipe = () => {
   const [preview, setPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  
+  
   const handleChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
   };
@@ -36,6 +38,13 @@ const PostRecipe = () => {
       });
       setIngredient({ name: "", quantity: "" }); // Clear input after adding
     }
+  };
+  
+  const removeIngredient = (index) => {
+    setRecipe({
+      ...recipe,
+      ingredients: recipe.ingredients.filter((_, i) => i !== index),
+    });
   };
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -118,6 +127,7 @@ const PostRecipe = () => {
             {recipe.ingredients.map((item, index) => (
               <li key={index}>
                 {item.name} - {item.quantity}
+                <button onClick={() => removeIngredient(index)} className="remove-btn">❌</button>
               </li>
             ))}
           </ul>

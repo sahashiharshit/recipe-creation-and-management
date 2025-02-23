@@ -13,14 +13,17 @@ export const AdminAuthProvider = ({ children }) => {
     const [admin, setAdmin] = useState(null);
     const [loading, setLoading] = useState(true);
     const fetchAdmin = async () => {
+    const controller = new AbortController();
         try {
             const res = await axios.get("http://localhost:3000/api/admin/profile", {
                 withCredentials: true,
+                signal:controller.signal,
             });
             setAdmin(res.data);
         } catch (error) {
             setAdmin(null);
         } 
+        return () => controller.abort();
     };
     useEffect(() => {
         
@@ -41,6 +44,7 @@ export const AdminAuthProvider = ({ children }) => {
         try {
             await axios.post("http://localhost:3000/api/admin/logout", {}, { withCredentials: true });
             setAdmin(null);
+            setLoading(false);
         } catch (error) {
             console.error("Logout failed");
         }

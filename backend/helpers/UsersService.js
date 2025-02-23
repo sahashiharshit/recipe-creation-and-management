@@ -2,6 +2,7 @@ import { User } from "../models/User.js";
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import s3 from '../config/awshelper.js';
+import { Recipe } from "../models/Recipe.js";
 
 class UserService{
 
@@ -29,6 +30,16 @@ cb(null,`profile-images/${req.user.id}-${Date.now()}-${file.originalname}`);
 }),
 });
 
+
+getMyRecipes = async(id)=>{
+
+try {
+    const recipes = await Recipe.findAll({where:{userId:id}});
+    return recipes;
+} catch (error) {
+    throw error;
+}
+}
 
 
 }

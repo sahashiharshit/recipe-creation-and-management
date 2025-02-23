@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Recipes from "./pages/Recipes";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import RecipeDetails from "./pages/RecipesDetails";
@@ -16,16 +16,18 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
 const App=()=> {
- 
+  const location = useLocation();
+  const hideNavbar = location.pathname.startsWith("/admin") && location.pathname !== "/admin/login";
+
 
   return (
     <>
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <Routes>
         {/*Public Route*/}
         <Route path="/" element={<Recipes />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
+        
         <Route path="/signup" element={<Signup />} />
         
         {/* Protected Routes (Only logged-in users) */}
@@ -63,17 +65,20 @@ const App=()=> {
         />
 
         {/* Admin Route (Only accessible by admin) */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <AdminProtectedRoute>
-              <AdminLayout>
-              <AdminDashboard />
-              </AdminLayout>
-              
-            </AdminProtectedRoute>
-          }
-        />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/*" element={
+        <AdminProtectedRoute>
+        <AdminLayout>
+        <Routes>
+        
+        <Route path="/dashboard" element={<AdminDashboard />}/>
+        </Routes>
+        </AdminLayout>
+        </AdminProtectedRoute>
+        }/>
+        
+        
+        
       </Routes>
         {/* Toast Container (Must be included once in App.jsx) */}
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar />

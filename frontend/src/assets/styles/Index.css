@@ -1,12 +1,11 @@
-/* 🌙 Dark Theme */
+/* 🌙 Dark Theme
 :root {
-  --primary-color: #f97316; /* Orange */
-  --secondary-color: #1e293b; /* Dark Blue */
-  --text-color: #f8fafc; /* Light Gray */
-  --bg-color: #0f172a; /* Dark Navy */
+  --primary-color: #f97316; 
+  --secondary-color: #1e293b;
+  --text-color: #f8fafc; 
+  --bg-color: #0f172a; 
 }
 
-/* 🌟 Global Reset */
 html, body {
   margin: 0;
   padding: 0;
@@ -17,7 +16,6 @@ html, body {
   color: var(--text-color);
 }
 
-/* 🔹 Buttons */
 button {
   background: var(--primary-color);
   color: white;
@@ -32,7 +30,6 @@ button:hover {
   background: #ea580c;
 }
 
-/* 🔹 Form Fields */
 input, textarea {
   width: 100%;
   padding: 10px;
@@ -47,7 +44,7 @@ input::placeholder {
   color: #94a3b8;
 }
 
-/* 🔹 Utility Classes */
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -56,4 +53,4 @@ input::placeholder {
 
 .hidden {
   display: none;
-}
+} */
