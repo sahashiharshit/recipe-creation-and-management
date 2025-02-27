@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../context/AuthContext";
 import { showErrorToast, showInfoToast } from "../utils/toastUtils";
 import { FiLogOut } from "react-icons/fi";
+import ThemeToggle from "./ThemeToggle";
 
 
 const Navbar = () => {
@@ -31,17 +32,19 @@ try {
     <nav className="navbar" >
       <Link to="/" className="nav-logo">Recipe App</Link>
       <div className="nav-links" >
-        
+      <ThemeToggle/>
         {user ? (
           <><p>Hello, {user.username}</p>
             <Link to="/profile">Profile</Link>
             <Link to="/post-recipe">Post Recipe</Link>
             <button onClick={handleLogout} aria-label="Logout"> <FiLogOut /></button>
+           
           </>
         ) : (<>
           <Link to="/login" >Login</Link>
           <Link to="/admin/login">Admin Login</Link>
-          <Link to="/signup" >Signup</Link>
+          <Link to="/signup" >Register</Link>
+          
         </>
         
         )}

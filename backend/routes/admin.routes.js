@@ -13,6 +13,7 @@ import {
   logoutAdmin,
   pendingRecipes,
   pendingUsers,
+  refreshToken,
   viewRecipe,
 } from "../controllers/adminController.js";
 
@@ -21,6 +22,7 @@ const adminRoutes = Router();
 // Login(Admin only)
 adminRoutes.post("/login", adminlogin);
 
+adminRoutes.post("/refresh",refreshToken);
 //Profile of admin
 adminRoutes.get("/profile", adminAuthMiddleware, adminProfile);
 

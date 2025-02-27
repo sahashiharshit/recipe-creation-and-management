@@ -14,9 +14,7 @@ export const authMiddleware = async(req,res,next)=>{
     try{
         const decoded = verifyToken(token);
         req.user = decoded;
-        // Check if user is an admin in the Admin table
-        
-         //req.isAdmin = await Userauthentication.checkAdmin(req.user.id);
+       
         
         next();
     }catch(error){

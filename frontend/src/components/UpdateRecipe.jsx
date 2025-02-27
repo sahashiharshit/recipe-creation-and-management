@@ -127,7 +127,7 @@ const UpdateRecipe = () => {
       showSuccessToast("📦✅ Recipe updated successfully!");
       navigate(`/recipe/${id}`);
     } catch (error) {
-      console.error("Update error:", error.response?.data || error.message);
+    
       showErrorToast("🚨❌ Error updating recipe");
     }
    

@@ -6,7 +6,7 @@ import recipeRoutes from "./recipes.routes.js";
 import authRoutes from "./auth.routes.js";
 import collectionRoutes from "./collection.routes.js";
 import favoriteRoutes from "./favorites.routes.js";
-import reviewRoutes from "./review.routes.js";
+
 
 const routes =Router();
 
@@ -17,6 +17,6 @@ routes.use('/socials',socialsRoutes);
 routes.use('/recipes',recipeRoutes);
 routes.use('/collections',collectionRoutes);
 routes.use('/favorites',favoriteRoutes);
-routes.use('/review',reviewRoutes);
+
 
 export default routes;

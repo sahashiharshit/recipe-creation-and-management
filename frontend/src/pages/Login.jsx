@@ -1,20 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
-import "../assets/styles/Auth.css"
+import { useAuth } from "../context/AuthContext";
+import "../styles/Auth.css"
 import {FaEnvelope,FaLock} from 'react-icons/fa';
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,setError]= useState("");
+
   
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+   
     
     try {
       const response = await login(email, password);
@@ -22,20 +23,19 @@ const Login = () => {
         navigate("/"); // ✅ Redirect to homepage after successful login
         showSuccessToast("🔓✅ Logged in successfully!");
       } else {
-        setError(response.error); // ✅ Show error message on failed login
+       
         showErrorToast("🔑❌ Invalid credentials!");
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.",error);
+     showErrorToast("Something went wrong. Please try again.");
     }
   };
 
   return (
-    <div className="login-container">
+    <div className="auth-container">
       <form onSubmit={handleSubmit} className="auth-card">
         <h1 className="auth-title">Login</h1>
-        {error && <p className="auth-error">{error}</p>} {/* ✅ Display error */}
-
+        
         <div className="input-group">
        
           <div className="input-container">

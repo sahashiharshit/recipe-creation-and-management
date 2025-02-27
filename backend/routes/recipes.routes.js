@@ -9,6 +9,8 @@ import {
   getSingleRecipe,
   updateRecipe,
   uploadS3Url,
+  getRecipeReviews,
+  postReview
 } from "../controllers/recipesController.js";
 
 export const recipeRoutes = Router();
@@ -27,9 +29,8 @@ recipeRoutes.put("/update/:id", authMiddleware, updateRecipe);
 
 recipeRoutes.delete("delete/:id", authMiddleware, deleteRecipe);
 
-//Add a review to a recipe
-recipeRoutes.post("/:id/reviews",);
-//Get reviews for a recipe
-recipeRoutes.get("/:id/reviews", );
 
+recipeRoutes.get('/:recipeId/reviews',authMiddleware,getRecipeReviews);
+//Delete a review
+recipeRoutes.post('/:recipeId/reviews',authMiddleware,postReview);
 export default recipeRoutes;

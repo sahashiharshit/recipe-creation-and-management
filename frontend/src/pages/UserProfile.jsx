@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import {} from "react-router-dom";
 import axios from "axios";
 import defaultAvatar from "../assets/images/default-avatar.png";
-import "../assets/styles/Profile.css";
+import "../styles/Profile.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 
 const UserProfile = () => {

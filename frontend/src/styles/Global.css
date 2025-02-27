@@ -1,0 +1,144 @@
+:root {
+    --primary-color: #f97316; /* Vibrant Orange */
+    --secondary-color: #1e293b; /* Dark Blue */
+  
+    /* Light Mode */
+    --bg-color: #f9fafb; /* Softer off-white, better than pure white */
+    --text-color: #1a1a1a; /* Darker gray for improved readability */
+    --button-bg: #f97316; /* Primary button background */
+    --button-text: #1a1a1a; /* Button text */
+    --button-hover: #ea580c; /* Darker orange on hover */
+    --link-color: #1e40af; /* Deep blue links */
+    --link-hover: #0c3a8c; /* Darker blue on hover */
+    --icon-color: #64748b;
+    --input-bg: #ffffff; /* White input background */
+    --card-bg: #ffffff; /* Card background */
+    
+    --sidebar-bg: #ffffff; /* Light sidebar background */
+    --sidebar-text: #333333; /* Dark text for contrast */
+    --sidebar-hover: #f0f0f0; /* Light gray hover effect */
+    --modal-bg: #ffffff; /* White modal background */
+    --primary-color: #007bff; /* Slightly darker blue for light mode */
+    --success-color: #28a745; /* Keeping success green */
+    --gray-color: #6c757d; /* Neutral gray */
+    --danger-color: #dc3545; /* Keeping danger red */
+    --border-color: #dddddd; /* Light gray borders */
+    --scrollbar-track: #f1f1f1; /* Light gray track */
+    --scrollbar-thumb: #cccccc; /* Medium gray thumb */
+  }
+  
+  .dark-mode {
+    /* Dark Mode */
+    --bg-color: #121212; /* Deep gray-black for less strain */
+    --text-color: #e5e5e5; /* Softer white for readability */
+    --secondary-color: #3b4252; /* Adjusted dark blue for contrast */
+    --button-bg: #f97350; /* Keep button bright */
+    --button-text: #ffffff; /* White text for contrast */
+    --button-hover: #ff6600; /* Slightly brighter orange on hover */
+    --link-color: #3182ce; /* More readable light blue */
+    --link-hover: #1a73e8; /* Brighter blue hover */
+    --icon-color: #e5e7eb;
+    --input-bg: #1e1e1e; /* Darker input background */
+    --card-bg: #1e1e1e; /* Darker card background */
+    
+    --sidebar-bg: #1c1c1c;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #292929;
+    --modal-bg: #1e1e1e;
+    --primary-color: #1e90ff;
+    --success-color: #28a745;
+    --gray-color: #6c757d;
+    --danger-color: #dc3545;
+    --border-color: #444;
+   
+    --scrollbar-track: #333;
+    --scrollbar-thumb: #555;
+    
+  }
+
+    * {
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        
+      }
+      
+      body {
+        font-family: "Inter", sans-serif; /* Replace with your preferred font */
+        font-size: 16px;
+        line-height: 1.6;
+        animation: fadeIn 0.3s ease-in-out;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+      }
+      button {
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+      }
+      button:hover {
+        background-color: var(--button-hover);
+      }
+      button:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+      
+      a {
+        color: var(--link-color);
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+      }
+      a:hover {
+        color: var(--link-hover);
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .hidden {
+        display: none;
+      }
+      
+      
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--secondary-color);
+        border-radius: 4px;
+      }
+      
+      
+      

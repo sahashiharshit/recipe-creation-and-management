@@ -3,90 +3,113 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaClock, FaUtensils, FaEdit } from "react-icons/fa";
 import axios from "axios";
-import '../assets/styles/RecipeDetails.css';
+import "../styles/RecipeDetails.css";
 import { showErrorToast } from "../utils/toastUtils";
+import RecipeReviews from "../components/RecipeReviews";
+import StarRatings from "react-star-ratings";
+
 const RecipeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false); // ✅ Track ownership
-  const [recipeOwner,setRecipeOwner] = useState(null);
+  const [recipeOwner, setRecipeOwner] = useState(null);
+  const [averageRating,setAverageRating]= useState(0);
   useEffect(() => {
-  
-    const fetchRecipe =async()=>{
-    
+    const fetchRecipe = async () => {
       try {
-       const res = await axios.get(`http://localhost:3000/api/recipes/${id}`, { withCredentials: true });
-       if (res.data) {
-      
-        setRecipe(res.data);
-        const userRes = await axios.get("http://localhost:3000/api/users/profile", {
-          withCredentials: true, // ✅ Ensure cookies are sent
+        const res = await axios.get(`http://localhost:3000/api/recipes/${id}`, {
+          withCredentials: true,
         });
-        if (userRes.data?.id===res.data.userId) {
-          setIsOwner(userRes.data.id); // ✅ Compare userId
-        }else{
-        const user = await axios.get(`http://localhost:3000/api/users/${res.data.userId}`,{withCredentials:true});
-          console.log(user);
-          setRecipeOwner(user.data);
+        if (res.data) {
+          setRecipe(res.data);
+          const userRes = await axios.get(
+            "http://localhost:3000/api/users/profile",
+            {
+              withCredentials: true, // ✅ Ensure cookies are sent
+            }
+          );
+          if (userRes.data?.id === res.data.userId) {
+            setIsOwner(userRes.data.id); // ✅ Compare userId
+          } else {
+            const user = await axios.get(
+              `http://localhost:3000/api/users/${res.data.userId}`,
+              { withCredentials: true }
+            );
+           
+            setRecipeOwner(user.data);
+          }
+        } else {
+          showErrorToast("❌⚠️ Recipe not found");
         }
-        
-      } else {
-       
-        showErrorToast("❌⚠️ Recipe not found");
-      }
-       
       } catch (error) {
         showErrorToast("🔄❌ Could not process request!");
-        
-      }finally{
+      } finally {
         setLoading(false);
-      
       }
-    
     };
     fetchRecipe();
-
   }, [id]);
   if (loading) return <p>Loading recipe details...</p>;
-  
 
   return (
     <div className="recipe-details-container">
       {/* Recipe Header */}
       <div className="recipe-header">
         <h1 className="recipe-title">{recipe.title}</h1>
-        
+
         {/* ✅ Show Edit Button Only if User is Owner */}
         {isOwner && (
-        <button className="edit-button" onClick={() => navigate(`/edit-recipe/${id}`)}>
-          <FaEdit className="edit-icon" /> Edit Recipe
-        </button>
-         )}
-         {recipeOwner && (<p className="owner-name">Posted By: { (recipeOwner.username).charAt(0).toUpperCase()+ (recipeOwner.username).slice(1)}</p>)}
+          <button
+            className="edit-button"
+            onClick={() => navigate(`/edit-recipe/${id}`)}
+          >
+            <FaEdit className="edit-icon" /> Edit Recipe
+          </button>
+        )}
+        {recipeOwner && (
+          <p className="owner-name">
+            Posted By:{" "}
+            {recipeOwner.username.charAt(0).toUpperCase() +
+              recipeOwner.username.slice(1)}
+          </p>
+        )}
       </div>
 
       {/* Recipe Image */}
       <div className="recipe-image-container">
         {recipe.imageUrl ? (
-          <img src={recipe.imageUrl} alt={recipe.title} className="recipe-image" />
+          <img
+            src={recipe.imageUrl}
+            alt={recipe.title}
+            className="recipe-image"
+          />
         ) : (
           <p className="no-image">No Image Available</p>
         )}
+        <div className="average-rating">
+          <StarRatings rating={Number(averageRating)} starRatedColor="#ffd700" numberOfStars={5} starDimension="24px" starSpacing="2px" />
+          <p>({averageRating} out of 5)</p>
+        </div>
       </div>
 
       {/* Recipe Info Section */}
       <div className="recipe-info">
         <div className="info-box">
           <FaClock className="icon" />
-          <p><strong>Cooking Time:</strong> {recipe.cookingTime} minutes</p>
+          <p>
+            <strong>Cooking Time:</strong> {recipe.cookingTime} minutes
+          </p>
         </div>
         <div className="info-box">
           <FaUtensils className="icon" />
-          <p><strong>Category:</strong> {recipe.category}</p>
+          <p>
+            <strong>Category:</strong> {recipe.category}
+          </p>
         </div>
       </div>
+      
 
       {/* Ingredients Section */}
       <div className="ingredients-section">
@@ -118,7 +141,10 @@ const RecipeDetails = () => {
         <h3 className="section-title">Instructions</h3>
         <p className="instructions">{recipe.instructions}</p>
       </div>
+      
+      <RecipeReviews recipeId={id} onAverageRatingChange={setAverageRating}/>
     </div>
+    
   );
 };
 

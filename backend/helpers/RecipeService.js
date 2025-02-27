@@ -1,4 +1,5 @@
 import { Recipe } from "../models/Recipe.js";
+import {Review} from "../models/Review.js";
 
 class RecipeService {
   createRecipe = async (recipe) => {
@@ -63,6 +64,30 @@ class RecipeService {
     } catch (error) {
         throw error;
     }
+  }
+  
+  getAllReviews = async(recipe_id)=>{
+  try {
+    const reviews = await Review.findAll({where:{recipeId:recipe_id}});
+    
+    return reviews
+  } catch (error) {
+    throw error;
+  }  
+  }
+  
+  postReview = async (comment,rating,userId,recipeId)=>{
+  try {
+    const review = await Review.create({
+    rating:rating,
+    comment:comment,
+    userId:userId,
+    recipeId:recipeId,
+    });
+    return review;
+  } catch (error) {
+    throw error
+  }
   }
 }
 export default new RecipeService();

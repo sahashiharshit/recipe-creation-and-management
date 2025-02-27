@@ -5,20 +5,22 @@ import RecipeDetails from "./pages/RecipesDetails";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
-import PostRecipe from "./components/PostRecipe";
-import "./assets/styles/App.css";
+import PostRecipe from "./pages/PostRecipe";
+import "./styles/App.css";
 import UpdateRecipe from "./components/UpdateRecipe";
 import Signup from "./pages/Signup";
 import UserProfile from "./pages/UserProfile";
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminLogin from "./pages/AdminLogin";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
-const App=()=> {
-  const location = useLocation();
-  const hideNavbar = location.pathname.startsWith("/admin") && location.pathname !== "/admin/login";
 
+const App = () => {
+  const location = useLocation();
+  const hideNavbar =
+    location.pathname.startsWith("/admin") &&
+    location.pathname !== "/admin/login";
 
   return (
     <>
@@ -27,9 +29,9 @@ const App=()=> {
         {/*Public Route*/}
         <Route path="/" element={<Recipes />} />
         <Route path="/login" element={<Login />} />
-        
+
         <Route path="/signup" element={<Signup />} />
-        
+
         {/* Protected Routes (Only logged-in users) */}
         <Route
           path="/profile"
@@ -65,24 +67,25 @@ const App=()=> {
         />
 
         {/* Admin Route (Only accessible by admin) */}
+
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/*" element={
-        <AdminProtectedRoute>
-        <AdminLayout>
-        <Routes>
-        
-        <Route path="/dashboard" element={<AdminDashboard />}/>
-        </Routes>
-        </AdminLayout>
-        </AdminProtectedRoute>
-        }/>
-        
-        
-        
+
+        <Route
+          path="/admin/*"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <Routes>
+                  <Route path="/dashboard" element={<AdminDashboard />} />
+                </Routes>
+              </AdminLayout>
+            </AdminProtectedRoute>
+          }
+        />
       </Routes>
-        {/* Toast Container (Must be included once in App.jsx) */}
-        <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      {/* Toast Container (Must be included once in App.jsx) */}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </>
   );
-}
+};
 export default App;

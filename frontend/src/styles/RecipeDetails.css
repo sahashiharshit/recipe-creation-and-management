@@ -1,0 +1,206 @@
+/* 🌙 Recipe Details Styles */
+.recipe-details-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.edit-button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: var(--button-hover);
+}
+
+.recipe-image-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.recipe-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.no-image {
+  font-size: 1rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.recipe-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.icon {
+  color: var(--link-color);
+}
+
+.ingredients-section, .instructions-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--link-color);
+  margin-bottom: 1rem;
+}
+
+.ingredients-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ingredients-table th, .ingredients-table td {
+  border: 1px solid var(--secondary-color);
+  padding: 8px;
+  text-align: left;
+}
+
+.instructions {
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.owner-name {
+  font-size: 20px;
+  color: var(--link-color);
+}
+
+/* 🌟 Ratings & Reviews */
+.ratings-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--bg-color);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rating-heading {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.ratings {
+  background: var(--bg-color);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment {
+  margin: 8px 0;
+  font-size: 16px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+.comment-username {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.rating-form {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-text {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  font-size: 14px;
+  resize: none;
+  margin-top: 10px;
+}
+
+.comment-button {
+  width: 100%;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.comment-button:hover {
+  background-color: var(--button-hover);
+}
+
+.average-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .ratings-container {
+    width: 90%;
+    padding: 15px;
+  }
+  .recipe-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

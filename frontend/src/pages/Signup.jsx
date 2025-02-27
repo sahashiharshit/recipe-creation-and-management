@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; // Import icons
-import "../assets/styles/Signup.css";
+import "../styles/Auth.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const Signup =()=>{
 
@@ -38,7 +38,7 @@ try {
 }
 };
 return (
-    <div className="signup-container">
+    <div className="auth-container">
       <div className="auth-card">
         <h2 className="auth-title">Sign Up</h2>
 

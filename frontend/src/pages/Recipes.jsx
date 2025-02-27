@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../assets/styles/Recipes.css";
+import "../styles/Recipes.css";
 import { showErrorToast } from "../utils/toastUtils";
 const Recipes = () => {
   const [recipes, setRecipes] = useState([]);

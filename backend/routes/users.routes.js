@@ -11,6 +11,7 @@ import {
   uploadProfilePic,
 } from "../controllers/usersController.js";
 const usersRoutes = Router();
+
 usersRoutes.get("/my-recipes",authMiddleware,myRecipes);
 //Get current user profile
 usersRoutes.get("/profile", authMiddleware, getUserProfile);

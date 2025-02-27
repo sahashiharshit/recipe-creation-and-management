@@ -2,7 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../assets/styles/PostRecipe.css";
+import "../styles/PostRecipe.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const PostRecipe = () => {
   const navigate = useNavigate();

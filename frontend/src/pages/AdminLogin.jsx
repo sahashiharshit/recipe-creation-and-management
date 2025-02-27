@@ -1,33 +1,27 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import "../assets/styles/Auth.css"
-import {FaEnvelope,FaLock} from 'react-icons/fa';
+import "../styles/Auth.css";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
-
 import { useAdminAuth } from "../context/AdminAuthContext";
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
- 
-  
   const navigate = useNavigate();
   const { adminLogin } = useAdminAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    
+
     try {
-      
-        const response = await adminLogin(username, password);
-        
+      const response = await adminLogin(username, password);
+
       if (response.success) {
         navigate("/admin/dashboard"); // ✅ Redirect to homepage after successful login
         showSuccessToast("🔓✅ Logged in successfully!");
       } else {
-        
         showErrorToast("🔑❌ Invalid credentials!");
       }
     } catch (error) {
@@ -36,14 +30,13 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="auth-container">
       <form onSubmit={handleSubmit} className="auth-card">
         <h1 className="auth-title">Admin Login</h1>
-       
+
         <div className="input-group">
-       
           <div className="input-container">
-          <FaEnvelope className="icon" /> {/* 👈 Added Icon */}
+            <FaEnvelope className="icon" /> {/* 👈 Added Icon */}
             <input
               type="text"
               placeholder="Enter your username"
@@ -55,9 +48,8 @@ const AdminLogin = () => {
         </div>
 
         <div className="input-group">
-      
           <div className="input-container">
-          <FaLock className="icon" /> {/* 👈 Added Icon */}
+            <FaLock className="icon" /> {/* 👈 Added Icon */}
             <input
               type="password"
               placeholder="Enter your password"
@@ -69,7 +61,9 @@ const AdminLogin = () => {
           </div>
         </div>
 
-        <button type="submit" className="auth-btn" >Login</button>
+        <button type="submit" className="auth-btn">
+          Login
+        </button>
         {/* <p className="auth-footer">
           Don&apos;t have an account? <a href="/signup" className="auth-link">Sign Up</a>
         </p> */}

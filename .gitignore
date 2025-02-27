@@ -1,6 +1,6 @@
 /backend/node_modules
 /backend/.env
-
+/backend/package-lock.json
 /frontend/node_modules
 /frontend/logs
 /frontend/*.log
@@ -9,7 +9,7 @@
 /frontend/*.local
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
-
+/frontend/package-lock.json
 /frontend/yarn-error.log*
 /frontend/pnpm-debug.log*
 /frontend/lerna-debug.log*
