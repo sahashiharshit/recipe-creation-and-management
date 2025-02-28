@@ -11,9 +11,10 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-   origin:["http://localhost:5173","http://recipesappbucket.s3-website.ap-south-1.amazonaws.com"],
+   origin:["http://localhost:5173","https://recipe-management-lovat.vercel.app"],
     credentials:true,
-    methods: ["GET", "POST","PUT","DELETE"],
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Authorization, Content-Type",
   })
 );
 app.use(cookieParser());
