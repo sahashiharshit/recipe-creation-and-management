@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-   origin:"http://localhost:5173",
+   origin:["http://localhost:5173","http://recipesappbucket.s3-website.ap-south-1.amazonaws.com"],
     credentials:true,
     methods: ["GET", "POST","PUT","DELETE"],
   })

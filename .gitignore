@@ -16,7 +16,7 @@
 # Description
 # The Recipe Management and Sharing Platform is a web application that allows users to create, share, and discover recipes. Users can browse through a variety of recipes, save their favorites, and contribute their own recipes to the platform. The platform aims to build a community of food enthusiasts who can share their culinary creations and explore new dishes.
 /frontend/5173
-
+/frontend/.env
 
 # You have to mainly focus on the Backend of the application. Create and document APIs for all the mentioned features. 
 

@@ -8,6 +8,8 @@ import ThemeToggle from '../components/ThemeToggle'
 import {FiLogOut} from "react-icons/fi"
 import RecipeDetailsModal from "../components/RecipeDetailsModal";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
+
+import { API_BASE_URL } from "../utils/config";
 const AdminDashboard = () => {
   const {admin,adminLogout} = useAdminAuth();
   const [users, setUsers] = useState([]);
@@ -28,10 +30,10 @@ const AdminDashboard = () => {
   if(admin){
     const fetchData =async()=>{
       try {
-        const usersdata = await axios.get("http://localhost:3000/api/admin/users", { withCredentials: true });
+        const usersdata = await axios.get(`${API_BASE_URL}/api/admin/users`, { withCredentials: true });
           setUsers(usersdata.data);
           
-        const recipesdata = await axios.get("http://localhost:3000/api/admin/recipes",{withCredentials:true});   
+        const recipesdata = await axios.get(`${API_BASE_URL}/api/admin/recipes`,{withCredentials:true});   
          setRecipes(recipesdata.data)
         } catch (error) {
           navigate("/admin/login");
@@ -40,10 +42,10 @@ const AdminDashboard = () => {
      }
      const fetchPendingData = async () => {
       try {
-        const usersResponse = await axios.get("http://localhost:3000/api/admin/pending-users",{ withCredentials: true});
+        const usersResponse = await axios.get(`${API_BASE_URL}/api/admin/pending-users`,{ withCredentials: true});
         setPendingUsers(usersResponse.data);
   
-        const recipesResponse = await axios.get("http://localhost:3000/api/admin/pending-recipes",{ withCredentials: true});
+        const recipesResponse = await axios.get(`${API_BASE_URL}/api/admin/pending-recipes`,{ withCredentials: true});
         setPendingRecipes(recipesResponse.data);
       } catch (error) {
         showErrorToast("Error in fetching data");
@@ -57,7 +59,7 @@ const AdminDashboard = () => {
   
   const approveUser = async (id) => {
   try {
-    await axios.put(`http://localhost:3000/api/admin/approve-user/${id}`,{},{ withCredentials: true});
+    await axios.put(`${API_BASE_URL}/api/admin/approve-user/${id}`,{},{ withCredentials: true});
     setPendingUsers(pendingUsers.filter(user => user.id !== id));
     showSuccessToast("User approved successfully");
   } catch (error) {
@@ -68,7 +70,7 @@ const AdminDashboard = () => {
 
   const approveRecipe = async (id) => {
   try {
-    await axios.put(`http://localhost:3000/api/admin/approve-recipe/${id}`,{},{ withCredentials: true});
+    await axios.put(`${API_BASE_URL}/api/admin/approve-recipe/${id}`,{},{ withCredentials: true});
     setPendingRecipes(pendingRecipes.filter(recipe => recipe.id !== id));
     showSuccessToast("Recipe approved successfully");
     
@@ -80,7 +82,7 @@ const AdminDashboard = () => {
 
   const deleteUser = async (id) => {
   try {
-    await axios.delete(`http://localhost:3000/api/admin/user/${id}`, { withCredentials: true });
+    await axios.delete(`${API_BASE_URL}/api/admin/user/${id}`, { withCredentials: true });
     setUsers(users.filter(user => user.id !== id));
     showSuccessToast("User deleted successfully");
   } catch (error) {
@@ -90,7 +92,7 @@ const AdminDashboard = () => {
 };
 const deleteRecipe = async (id) => {
 try {
-  await axios.delete(`http://localhost:3000/api/admin/recipe/${id}`, { withCredentials: true });
+  await axios.delete(`${API_BASE_URL}/api/admin/recipe/${id}`, { withCredentials: true });
   setRecipes(recipes.filter(recipe => recipe.id !== id));
   showSuccessToast("Recipe deleted successfully");
 } catch (error) {

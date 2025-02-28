@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; // Import icons
 import "../styles/Auth.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../utils/config";
 const Signup =()=>{
 
 const [formData,setFormData] = useState({
@@ -25,7 +26,7 @@ const handleSubmit = async(e)=>{
 e.preventDefault();
 setError('');
 try {
-    const res = await axios.post(`http://localhost:3000/api/auth/register`,formData,{
+    const res = await axios.post(`${API_BASE_URL}/api/auth/register`,formData,{
     withCredentials:true,
     });
     if(res.status===201){

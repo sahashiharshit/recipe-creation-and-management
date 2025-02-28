@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
-
+import { API_BASE_URL } from "../utils/config";
 const UpdateRecipe = () => {
   const { id } = useParams();
 
@@ -28,7 +28,7 @@ const UpdateRecipe = () => {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/recipes/${id}`,
+          `${API_BASE_URL}/api/recipes/${id}`,
           { withCredentials: true }
         );
       
@@ -76,7 +76,7 @@ const UpdateRecipe = () => {
       setUploading(true);
       // Step 1: Request a pre-signed URL from the backend
       const { data } = await axios.get(
-        "http://localhost:3000/api/recipes/s3/upload-url",
+        `${API_BASE_URL}/api/recipes/s3/upload-url`,
         {
           params: { filename: file.name, filetype: file.type,id },
           withCredentials: true,
@@ -103,7 +103,7 @@ const UpdateRecipe = () => {
     let updatedImageUrl = recipe.imageUrl;
     
     try {
-      const res = await axios.get(`http://localhost:3000/api/recipes/${id}`,{withCredentials:true});
+      const res = await axios.get(`${API_BASE_URL}/api/recipes/${id}`,{withCredentials:true});
       const oldImageUrl = res.data.imageUrl;
 
       if (imageFile) {
@@ -119,7 +119,7 @@ const UpdateRecipe = () => {
       };
 
       await axios.put(
-        `http://localhost:3000/api/recipes/update/${id}`,
+        `${API_BASE_URL}/api/recipes/update/${id}`,
         { updatedRecipe, oldImageUrl: imageFile ? oldImageUrl : null },
         { withCredentials: true }
       );

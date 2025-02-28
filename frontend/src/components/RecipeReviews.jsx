@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 import StarRatings from 'react-star-ratings';
+import { API_BASE_URL } from "../utils/config";
 const RecipeReviews = ({ recipeId,onAverageRatingChange }) => {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
@@ -13,7 +14,7 @@ const RecipeReviews = ({ recipeId,onAverageRatingChange }) => {
   const fetchReviews = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/recipes/${recipeId}/reviews`,
+        `${API_BASE_URL}/api/recipes/${recipeId}/reviews`,
         { withCredentials: true }
       );
       
@@ -36,7 +37,7 @@ const RecipeReviews = ({ recipeId,onAverageRatingChange }) => {
     e.preventDefault();
     try {
       await axios.post(
-        `http://localhost:3000/api/recipes/${recipeId}/reviews`,
+        `${API_BASE_URL}/api/recipes/${recipeId}/reviews`,
         { rating, comment },
         { withCredentials: true }
       );

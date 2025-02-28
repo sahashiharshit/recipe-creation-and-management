@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { showErrorToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../utils/config";
 // ✅ Create Context
  
 const AuthContext = createContext();
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   // ✅ Fetch user profile
   const fetchUser = useCallback(async (controller) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/users/profile", {
+      const res = await axios.get(`${API_BASE_URL}/api/users/profile`, {
         withCredentials: true,
         signal: controller?.signal,
       });
@@ -40,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     async (email, password) => {
       try {
         await axios.post(
-          "http://localhost:3000/api/auth/login",
+          `${API_BASE_URL}/api/auth/login`,
           { email, password },
           { withCredentials: true }
         );
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     try {
       await axios.post(
-        "http://localhost:3000/api/auth/logout",
+        `${API_BASE_URL}/api/auth/logout`,
         {},
         { withCredentials: true }
       );

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/PostRecipe.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../utils/config";
 const PostRecipe = () => {
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState({
@@ -62,7 +63,7 @@ const PostRecipe = () => {
       setUploading(true);
       // Step 1: Request a pre-signed URL from the backend
       const { data } = await axios.get(
-        "http://localhost:3000/api/recipes/s3/upload-url",
+        `${API_BASE_URL}/api/recipes/s3/upload-url`,
         {
           params: { filename: imageFile.name, filetype: imageFile.type },
           withCredentials: true,
@@ -100,7 +101,7 @@ const PostRecipe = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/api/recipes/create", recipeData, {
+      await axios.post(`${API_BASE_URL}/api/recipes/create`, recipeData, {
         withCredentials: true,
       });
       showSuccessToast("📦✅ Recipe added successfully!");

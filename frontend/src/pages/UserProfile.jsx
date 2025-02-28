@@ -6,6 +6,7 @@ import axios from "axios";
 import defaultAvatar from "../assets/images/default-avatar.png";
 import "../styles/Profile.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../utils/config";
 
 const UserProfile = () => {
   const { user, setUser } = useAuth();
@@ -19,7 +20,7 @@ const UserProfile = () => {
       if (!user) return;
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/users/my-recipes`,
+          `${API_BASE_URL}/api/users/my-recipes`,
           { withCredentials: true }
         );
         
@@ -43,7 +44,7 @@ const UserProfile = () => {
     try {
       setUploading(true);
       const response = await axios.post(
-        "http://localhost:3000/api/users/upload-profile-pic",
+        `${API_BASE_URL}/api/users/upload-profile-pic`,
         formData,
         {
           withCredentials: true,

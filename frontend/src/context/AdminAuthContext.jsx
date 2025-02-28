@@ -2,6 +2,7 @@
 
 /* eslint-disable react-refresh/only-export-components */
 import axios from "axios";
+import { API_BASE_URL } from "../utils/config";
 import PropTypes from "prop-types";
 import {
   createContext,
@@ -30,7 +31,7 @@ export const AdminAuthProvider = ({ children }) => {
       if (!isAdminRoute) return;
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:3000/api/admin/profile", {
+        const res = await axios.get(`${API_BASE_URL}/api/admin/profile`, {
           withCredentials: true,
           signal: controller?.signal,
         });
@@ -47,13 +48,13 @@ export const AdminAuthProvider = ({ children }) => {
           try {
            
             await axios.post(
-              "http://localhost:3000/api/admin/refresh",
+              `${API_BASE_URL}/api/admin/refresh`,
               {},
               { withCredentials: true }
             );
             // 🔄 Retry fetching admin profile after refresh
             const res = await axios.get(
-              "http://localhost:3000/api/admin/profile",
+              `${API_BASE_URL}/api/admin/profile`,
               {
                 withCredentials: true,
                 signal: controller?.signal,
@@ -85,7 +86,7 @@ export const AdminAuthProvider = ({ children }) => {
     async (username, password) => {
       try {
         await axios.post(
-          "http://localhost:3000/api/admin/login",
+          `${API_BASE_URL}/api/admin/login`,
           { username, password },
           { withCredentials: true }
         );
@@ -105,7 +106,7 @@ export const AdminAuthProvider = ({ children }) => {
   const adminLogout = useCallback(async () => {
     try {
       await axios.post(
-        "http://localhost:3000/api/admin/logout",
+        `${API_BASE_URL}/api/admin/logout`,
         {},
         { withCredentials: true }
       );

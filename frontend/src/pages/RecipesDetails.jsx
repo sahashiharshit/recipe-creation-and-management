@@ -7,6 +7,7 @@ import "../styles/RecipeDetails.css";
 import { showErrorToast } from "../utils/toastUtils";
 import RecipeReviews from "../components/RecipeReviews";
 import StarRatings from "react-star-ratings";
+import { API_BASE_URL } from "../utils/config";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -19,13 +20,13 @@ const RecipeDetails = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/recipes/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/recipes/${id}`, {
           withCredentials: true,
         });
         if (res.data) {
           setRecipe(res.data);
           const userRes = await axios.get(
-            "http://localhost:3000/api/users/profile",
+            `${API_BASE_URL}/api/users/profile`,
             {
               withCredentials: true, // ✅ Ensure cookies are sent
             }
@@ -34,7 +35,7 @@ const RecipeDetails = () => {
             setIsOwner(userRes.data.id); // ✅ Compare userId
           } else {
             const user = await axios.get(
-              `http://localhost:3000/api/users/${res.data.userId}`,
+              `${API_BASE_URL}/api/users/${res.data.userId}`,
               { withCredentials: true }
             );
            

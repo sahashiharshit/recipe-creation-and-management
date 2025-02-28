@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Recipes.css";
 import { showErrorToast } from "../utils/toastUtils";
+import { API_BASE_URL } from "../utils/config";
 const Recipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,7 +16,7 @@ const Recipes = () => {
     const fetchRecipes = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/recipes/get-recipes",
+          `${API_BASE_URL}/api/recipes/get-recipes`,
           { withCredentials: true }
         );
         setRecipes(res.data);
