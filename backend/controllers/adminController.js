@@ -1,4 +1,4 @@
-import encryptionservice from "../helpers/encryptionservice.js";
+import encryptionservice from "../helpers/Encryptionservice.js";
 import ErrorChecker from "../helpers/ErrorChecker.js";
 import { Admin } from "../models/Admin.js";
 import { User } from "../models/User.js";
