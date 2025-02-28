@@ -20,6 +20,11 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api", routes);
+app._router.stack.forEach((r) => {
+  if (r.route && r.route.path) {
+    console.log(r.route.path);
+  }
+});
 server.listen(3000, () => {
   console.log(`Server Running at port:`, 3000);
 });
