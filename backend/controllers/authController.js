@@ -51,8 +51,8 @@ export const login = async(req,res)=>{
       });
       res.cookie("token",token,{
         httpOnly:true,
-        secure:process.env.NODE_ENV ==="development",
-        sameSite:'none',
+        secure:true,
+        sameSite:'None',
       });
       res.status(200).json({ message: "Login succesful",user: { id: user.id, username: user.username, isAdmin: user.isAdmin } } );
     } catch (error) {
