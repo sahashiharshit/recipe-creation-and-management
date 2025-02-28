@@ -40,7 +40,7 @@ const UserProfile = () => {
     const previewURL = URL.createObjectURL(file);
     setPreview(previewURL);
     const formData = new FormData();
-    formData.append("profileImage", file);
+    formData.append("profilePicture", file);
     try {
       setUploading(true);
       const response = await axios.post(
