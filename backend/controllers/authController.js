@@ -1,6 +1,6 @@
 
 import { generateToken } from "../config/jwthelper.js";
-import encryptionservice from "../helpers/encryptionservice.js";
+import encryptionservice from "../helpers/Encryptionservice.js";
 import ErrorChecker from "../helpers/ErrorChecker.js";
 import Userauthentication from "../helpers/Userauthentication.js";
 
