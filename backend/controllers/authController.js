@@ -57,6 +57,7 @@ export const login = async(req,res)=>{
       res.status(200).json({ message: "Login succesful",user: { id: user.id, username: user.username, isAdmin: user.isAdmin } } );
     } catch (error) {
       const error_code = await ErrorChecker.error_code(error);
+      console.log(error);
       res.status(error_code).json(error);
     }
 
