@@ -54,11 +54,12 @@ const UserProfile = () => {
 
       setUser((prevUser) => ({
         ...prevUser,
-        profileImage: response.data.profileImage, // Update profile image dynamically
+        profilePicture: response.data.profilePicture, // Update profile image dynamically
       }));
       setPreview(null);
       showSuccessToast("🎉 Profile picture submitted successfully!");
     } catch (error) {
+      console.log(error);
       showErrorToast("❌ Profile picture not updated. Try again!");
       setPreview(null);
     } finally {
@@ -79,7 +80,7 @@ const UserProfile = () => {
           {uploading ? "Uploading..." : "Change Profile Picture"}
           <input
             type="file"
-            name="profileImage"
+            name="profilePicture"
             accept="image/*"
             onChange={handleImageChange}
             disabled={uploading}
