@@ -38,6 +38,8 @@ export const anotherUserProfile = async (req, res) => {
 
 export const uploadProfilePic = async (req, res) => {
   try {
+    console.log("Request Body:", req.body);
+    console.log("Uploaded File:", req.file);
     const user = await UsersService.getProfile(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
