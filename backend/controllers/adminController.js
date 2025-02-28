@@ -33,12 +33,12 @@ export const adminlogin = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "none",
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "none",
     });
     
     res.status(200).json({
@@ -190,7 +190,7 @@ export const refreshToken = async (req, res) => {
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "none",
     });
     res.status(200).json({ message: "Token refreshed" });
   } catch (error) {
