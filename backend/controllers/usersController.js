@@ -60,7 +60,7 @@ export const uploadProfilePic = async (req, res) => {
     // Save new image URL in database
     user.profilePicture = req.file.location;
     await user.save();
-    res.json({ profilePicture: req.file.location });
+    res.status(200).json({ profilePicture: req.file.location });
   } catch (error) {
     const error_code = await ErrorChecker.error_code(error);
     res.status(error_code).json({ message: "Image upload failed" });
