@@ -5,9 +5,10 @@
     /* Light Mode */
     --bg-color: #f9fafb; /* Softer off-white, better than pure white */
     --text-color: #1a1a1a; /* Darker gray for improved readability */
-    --button-bg: #f97316; /* Primary button background */
+    --button-bg: #4c6ef5; /* Primary button background */
     --button-text: #1a1a1a; /* Button text */
-    --button-hover: #ea580c; /* Darker orange on hover */
+    --button-hover: #1e40ef; /* Darker orange on hover */
+    --button-disabled:#ccc;
     --link-color: #1e40af; /* Deep blue links */
     --link-hover: #0c3a8c; /* Darker blue on hover */
     --icon-color: #64748b;
@@ -25,17 +26,19 @@
     --border-color: #dddddd; /* Light gray borders */
     --scrollbar-track: #f1f1f1; /* Light gray track */
     --scrollbar-thumb: #cccccc; /* Medium gray thumb */
+    
   }
   
-  .dark-mode {
+  body.dark-mode {
     /* Dark Mode */
-    --bg-color: #121212; /* Deep gray-black for less strain */
+    --bg-color: #1a1c23; /* Deep gray-black for less strain */
     --text-color: #e5e5e5; /* Softer white for readability */
     --secondary-color: #3b4252; /* Adjusted dark blue for contrast */
-    --button-bg: #f97350; /* Keep button bright */
+    --button-bg: #80a2ff; /* Keep button bright */
     --button-text: #ffffff; /* White text for contrast */
-    --button-hover: #ff6600; /* Slightly brighter orange on hover */
-    --link-color: #3182ce; /* More readable light blue */
+    --button-hover: #1a74e8; /* Slightly brighter orange on hover */
+    --button-disabled: #bbbbbb;
+    --link-color: #80a2ff; /* More readable light blue */
     --link-hover: #1a73e8; /* Brighter blue hover */
     --icon-color: #e5e7eb;
     --input-bg: #1e1e1e; /* Darker input background */
@@ -90,6 +93,7 @@
         cursor: pointer;
         transition: background-color 0.3s ease-in-out;
       }
+      
       button:hover {
         background-color: var(--button-hover);
       }
@@ -97,7 +101,13 @@
         outline: 2px solid var(--primary-color);
         outline-offset: 2px;
       }
-      
+      textarea{
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease-in-out;
+        font-family: "Inter", sans-serif;
+        border: none;
+      }
       a {
         color: var(--link-color);
         text-decoration: none;

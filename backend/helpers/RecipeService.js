@@ -1,5 +1,6 @@
+import { Op } from "sequelize";
 import { Recipe } from "../models/Recipe.js";
-import {Review} from "../models/Review.js";
+import {Review,Categories} from "../config/associations.js";
 
 class RecipeService {
   createRecipe = async (recipe) => {
@@ -57,10 +58,30 @@ class RecipeService {
     }
   
   }
-  getAllRecipes= async(limit,offset)=>{
+  getAllRecipes= async(limit,offset,search="",category)=>{
     try {
-        const allRecipes = await Recipe.findAll({where:{isApproved:true}},{limit,offset,order:[['createdAt','DESC']]});
-        return allRecipes;
+        const whereClause = {isApproved:true};
+      if(search){
+        whereClause.title={[Op.iLike]:`%${search}%`};
+        
+      }
+      if(category && category!=="All"){
+        whereClause.categoryId=category;
+      }
+       const {count,rows} = await Recipe.findAndCountAll({
+       where:whereClause,
+       limit,
+       offset,
+       order:[["createdAt","DESC"]],
+       
+       });
+       return {
+       total:count,
+       recipes:rows,
+       totalPages:Math.ceil(count/limit),
+       currentPage:offset/limit+1,
+       
+       };
     } catch (error) {
         throw error;
     }
@@ -88,6 +109,15 @@ class RecipeService {
   } catch (error) {
     throw error
   }
+  }
+  
+  getAllCategories = async()=>{
+  try {
+    return await Categories.findAll();
+  } catch (error) {
+    throw error;
+  }
+  
   }
 }
 export default new RecipeService();

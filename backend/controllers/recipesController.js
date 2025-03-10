@@ -46,10 +46,10 @@ export const uploadS3Url = async (req, res) => {
 //Get all recipes
 export const getRecipes = async (req, res) => {
   try {
-    const { page = 1 } = req.query;
-    const limit = 20;
+    const { page = 1,search="",category="All" } = req.query;
+    const limit = 9;
     const offset = (page - 1) * limit;
-    const allRecipes = await RecipeService.getAllRecipes(limit, offset);
+    const allRecipes = await RecipeService.getAllRecipes(limit, offset,search,category);
     res.status(200).json(allRecipes);
   } catch (error) {
     const error_code = await ErrorChecker.error_code(error);
@@ -139,4 +139,17 @@ export const postReview = async (req, res) => {
     const error_code = await ErrorChecker.error_code(error);
     res.status(error_code).json(error);
   }
+};
+
+export const getCategories = async(req,res)=>{
+
+try {
+  const categories =  await RecipeService.getAllCategories();
+  
+  res.status(200).json(categories);
+} catch (error) {
+  
+}
+
+
 };

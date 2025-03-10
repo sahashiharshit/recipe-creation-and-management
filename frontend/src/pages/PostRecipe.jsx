@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/PostRecipe.css";
@@ -21,7 +21,23 @@ const PostRecipe = () => {
   const [preview, setPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [categories,setCategories]= useState([]);
+  const [selectedCategory,setSelectedCategory]= useState(null);
   
+  useEffect(()=>{
+  const fetchCategories=async()=>{
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/recipes/categories`);
+     
+      setCategories(response.data);
+    } catch (error) {
+      showErrorToast("⚠️ Failed to load categories");
+    }
+  
+  }
+  fetchCategories();
+    
+  },[]);
   
   const handleChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
@@ -164,14 +180,27 @@ const PostRecipe = () => {
           onChange={handleChange}
           required
         />
-        <input
+        {/* <input
           type="text"
           name="category"
           placeholder="Category"
           onChange={handleChange}
           required
-        />
-
+        /> */}
+        <select 
+        value={selectedCategory || ""}
+        onChange={(e)=>setSelectedCategory(e.target.value)}
+        className="categories">
+        <option value="">Select</option>
+        {
+          categories.map((category)=>(
+          <option key={category.id} value={category.id}>
+          {category.category_name}
+          </option>
+          
+          ))
+        }
+        </select>
         {/* Ingredient Inputs */}
         <div className="ingredient-input">
           <input

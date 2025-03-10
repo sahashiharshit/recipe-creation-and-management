@@ -1,27 +1,22 @@
-import PropTypes from "prop-types";
-import { useAuth } from "../context/AuthContext"
-import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({children})=>{
+import LoadingBar from "../components/LoadingBar";
+import { useAuth } from "../context/AuthContext"
+import { Navigate, Outlet } from "react-router-dom";
+
+const ProtectedRoute = ()=>{
 
 
 const {user,loading}= useAuth();
 
+
 if (loading) {
-  return <p>Loading...</p>; 
+  return <LoadingBar isLoading={true}/>;
       // 🔹 Prevent redirect until user is checked
   }
- // Redirect to login if not authenticated
+ 
 
-if(!user) return <Navigate to="/login" />;
-// Redirect to home if user is not an admin but the route requires admin access
-
-return children;
-
+ return user ? <Outlet /> : <Navigate to="/login" replace/>;
 };
 // ✅ Add PropTypes
-ProtectedRoute.propTypes = {
-    children: PropTypes.node.isRequired,
 
-  };
 export default ProtectedRoute;

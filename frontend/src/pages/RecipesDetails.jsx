@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaClock, FaUtensils, FaEdit } from "react-icons/fa";
+import { FaClock, FaUtensils, FaEdit,FaHeart,FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import "../styles/RecipeDetails.css";
 import { showErrorToast } from "../utils/toastUtils";
 import RecipeReviews from "../components/RecipeReviews";
 import StarRatings from "react-star-ratings";
+
 import { API_BASE_URL } from "../utils/config";
 
 const RecipeDetails = () => {
@@ -17,6 +18,7 @@ const RecipeDetails = () => {
   const [isOwner, setIsOwner] = useState(false); // ✅ Track ownership
   const [recipeOwner, setRecipeOwner] = useState(null);
   const [averageRating,setAverageRating]= useState(0);
+  const [isFavorite,setIsFavorite]= useState(false);
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -51,7 +53,46 @@ const RecipeDetails = () => {
       }
     };
     fetchRecipe();
+    
   }, [id]);
+  useEffect(()=>{
+  const fetchFavorites = async()=>{
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/favorites`, {
+      withCredentials: true, // Important for cookies-based auth
+    });
+    const favoriteIds = response.data.favorites.map((fav) => fav.recipeId);
+    setIsFavorite(favoriteIds.includes(id));
+  } catch (error) {
+    showErrorToast("Error fetching favorites");
+  }
+  
+  };
+  fetchFavorites();
+  
+  },[id]);
+  
+  
+  const toggleFavorite = async ()=>{
+  try {
+    if(isFavorite){
+    await axios.delete(`${API_BASE_URL}/api/favorites/${id}`,{
+    withCredentials:true,
+    
+    });
+    }else{
+      await axios.post(`${API_BASE_URL}/api/favorites`, { recipeId: id }, {
+        withCredentials: true,
+      });
+    
+    }
+    setIsFavorite(!isFavorite);
+  } catch (error) {
+    console.error("Error updating favorite:", error);
+  }
+  
+  };
+  
   if (loading) return <p>Loading recipe details...</p>;
 
   return (
@@ -93,6 +134,13 @@ const RecipeDetails = () => {
           <StarRatings rating={Number(averageRating)} starRatedColor="#ffd700" numberOfStars={5} starDimension="24px" starSpacing="2px" />
           <p>({averageRating} out of 5)</p>
         </div>
+        
+        <button
+        className={`favorite-btn ${isFavorite ? "favorited" : ""}`}
+        onClick={toggleFavorite}
+      >
+        <FaHeart color={isFavorite ? "red" : "gray"} size={24} />
+      </button>
       </div>
 
       {/* Recipe Info Section */}
@@ -142,8 +190,10 @@ const RecipeDetails = () => {
         <h3 className="section-title">Instructions</h3>
         <p className="instructions">{recipe.instructions}</p>
       </div>
-      
-      <RecipeReviews recipeId={id} onAverageRatingChange={setAverageRating}/>
+      {!isOwner && (<RecipeReviews recipeId={id} onAverageRatingChange={setAverageRating}/>)
+       
+      }
+     
     </div>
     
   );

@@ -10,7 +10,7 @@ export class Favorite extends Model{}
     userId: {
         type: DataTypes.UUID,
         references: {
-            model: 'User',
+            model: 'users',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -18,7 +18,7 @@ export class Favorite extends Model{}
     recipeId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Recipe',
+            model: 'recipes',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ export class Favorite extends Model{}
 },{
 sequelize,
 modelName:'Favorite',
-tableName:'Favorite',
+tableName:'favorite',
 timestamps:true,
 
 });

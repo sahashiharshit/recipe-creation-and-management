@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { showErrorToast } from "../utils/toastUtils";
 import { API_BASE_URL } from "../utils/config";
+
 // ✅ Create Context
  
 const AuthContext = createContext();
@@ -12,30 +14,35 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch user profile
-  const fetchUser = useCallback(async (controller) => {
+  const fetchUser = useCallback(async (attempt = 1) => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/users/profile`, {
-        withCredentials: true,
-        signal: controller?.signal,
+      const response = await axios.get(`${API_BASE_URL}/api/users/profile`, {
+        withCredentials: true, // Ensure cookies are sent
       });
-
-      setUser(res.data);
+    
+      if (response.data) {
+        setUser(response.data);
+      } else {
+        throw new Error("No user found");
+      }
     } catch (error) {
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        setUser(null); // ✅ Auto-logout on forbidden access
-        showErrorToast("Something went wrong! Login again...");
+      if (attempt < 3) {
+        console.log(`Retrying fetch user... Attempt ${attempt}`);
+        setTimeout(() => fetchUser(attempt + 1), 1000); // Retry after 1 sec
+      } else {
+        setUser(null);
       }
     } finally {
       setLoading(false);
     }
-  }, []);
-  // ✅ Run once when component mounts
+  },[]);
   useEffect(() => {
-    const controller = new AbortController();
-    fetchUser(controller);
-    return () => controller.abort();
+    
+
+    fetchUser();
   }, [fetchUser]);
+  
+  
   // ✅ Login function with error handling
   const login = useCallback(
     async (email, password) => {
@@ -77,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser,login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

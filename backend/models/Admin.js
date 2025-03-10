@@ -18,19 +18,11 @@ Admin.init( {
     type:DataTypes.STRING,
     allowNull:false,
     },
-    userId: {
-        type: DataTypes.UUID,
-        references: {
-            model: 'User',
-            key: 'id',
-        },
-        allowNull:true,
-        onDelete: 'SET NULL',
-    }
+    
 },{
 sequelize,
 modelName:'Admin',
-tableName:'Admin',
+tableName:'admins',
 timestamps:true,
 });
 

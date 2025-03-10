@@ -1,13 +1,16 @@
 import { Router } from "express";
-
+import {Favorite} from "../config/associations.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import { deleteFavorites, getFavorites, postFavorites } from "../controllers/favoritesController.js";
 
 
 const favoriteRoutes = Router();
-//Save a recipe to favorites
-favoriteRoutes.post('/:recipeId',(req,res)=>{});
-//Remove a recipe from favorites
-favoriteRoutes.delete('/:recipeId',(req,res)=>{});
-
 //Get favorite recipes
-favoriteRoutes.get('/get-fav-recipes',(req,res)=>{});
+favoriteRoutes.get('/',authMiddleware,getFavorites);
+//Save a recipe to favorites
+favoriteRoutes.post('/',authMiddleware,postFavorites);
+//Remove a recipe from favorites
+favoriteRoutes.delete('/:recipeId',authMiddleware,deleteFavorites);
+
+
 export default favoriteRoutes;

@@ -91,6 +91,17 @@
   font-size: 1rem;
   font-family: "Inter", sans-serif;
 }
+.categories{
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+
+
+}
 
 .recipe-form textarea {
   height: 100px;

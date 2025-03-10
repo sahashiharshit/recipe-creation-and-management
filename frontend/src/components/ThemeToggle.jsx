@@ -4,7 +4,14 @@ function ThemeToggle(){
     const [darkMode, setDarkMode] = useState(
         localStorage.getItem("theme") === "dark"
       );
-    
+      useEffect(() => {
+        if (darkMode) {
+          document.body.classList.add("dark-mode");
+        } else {
+          document.body.classList.remove("dark-mode");
+        }
+      }, [darkMode]); 
+      
       useEffect(() => {
         if (darkMode) {
           document.body.classList.add("dark-mode");

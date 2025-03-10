@@ -14,79 +14,6 @@
   min-height: 100vh; /* Ensures full height */
 }
 
-/* 🔍 Filter Container (Search & Category Dropdown) */
-.filter-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  max-width: 800px;
-  margin-bottom: 20px;
-  
-}
-
-/* 🔍 Search Box */
-.search-box {
-  display: flex;
-  align-items: center;
-  border: 2px solid #ddd;
-  border-radius: 25px;
-  overflow: hidden;
-  transition: width 0.3s ease;
-  background: var(--bg-color);
-  
-  
-}
-
-.search-box.expanded {
-  border-color: #ff5722;
-}
-
-/* Search Input */
-.search-input {
-color: var(--text-color);
- flex: 1;
- padding:10px;
- border: none;
- outline: none;
- font-size: 16px;
- border-radius: 0;
-}
-
-/* Search Button */
-.search-button {
-  background: var(--button-bg);
-  border: none; /* Removes border for smooth fit */
-  color: var(--button-text);
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: background 0.3s ease;
-  margin: 0; /* Removes any unwanted margin */
-}
-
-.search-button:hover {
-  background: var(--button-hover);
-}
-
-/* 📂 Category Dropdown */
-.category-filter {
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.category-filter:focus {
-  border-color: var(--button-bg);
-  outline: none;
-}
 
 /* 🔹 Recipe Grid */
 .recipe-grid {
@@ -161,6 +88,44 @@ color: var(--text-color);
   color: #777;
   font-weight: bold;
   margin-top: 20px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: var(--button-bg); /* Redish Bubble */
+  color: var(--button-text);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.pagination button:hover {
+  background-color: var(--button-hover);
+  transform: scale(1.1);
+}
+
+.pagination button:disabled {
+  background-color: var(--button-disabled);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination span {
+  /* background-color: #4caf50; Green Bubble */
+  color: var(--text-color);
+  padding: 10px 14px;
+  border-radius: 10%;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* 📱 Responsive (For Smaller Screens) */

@@ -25,12 +25,6 @@ class Userauthentication {
     }
   };
 
-  checkAdmin = async (userid) => {
-    try {
-      return await Admin.findOne({ where: { userId: userid } });
-    } catch (error) {
-      throw error;
-    }
-  };
+ 
 }
 export default new Userauthentication();

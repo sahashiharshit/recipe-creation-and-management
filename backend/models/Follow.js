@@ -11,7 +11,7 @@ export class Follow extends Model{}
     followerId: {
         type: DataTypes.UUID,
         references: {
-            model: 'User',
+            model: 'users',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -19,7 +19,7 @@ export class Follow extends Model{}
     followingId: {
         type: DataTypes.UUID,
         references: {
-            model: 'User',
+            model: 'users',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -27,6 +27,6 @@ export class Follow extends Model{}
 },{
 sequelize,
 modelName:'Follow',
-tableName:'Follow',
+tableName:'follow',
 timestamps:true,
 });

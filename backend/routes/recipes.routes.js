@@ -10,7 +10,8 @@ import {
   updateRecipe,
   uploadS3Url,
   getRecipeReviews,
-  postReview
+  postReview,
+  getCategories
 } from "../controllers/recipesController.js";
 
 export const recipeRoutes = Router();
@@ -21,6 +22,8 @@ recipeRoutes.get("/s3/upload-url", authMiddleware, uploadS3Url);
 
 
 recipeRoutes.get("/get-recipes",  getRecipes);
+
+recipeRoutes.get("/categories",getCategories);
 
 
 recipeRoutes.get("/:id", authMiddleware,getSingleRecipe);

@@ -23,7 +23,7 @@ Review.init( {
     userId: {
         type: DataTypes.UUID,
         references: {
-            model: 'User',
+            model: 'users',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -31,7 +31,7 @@ Review.init( {
     recipeId: {
         type: DataTypes.UUID,
         references: {
-            model: 'Recipe',
+            model: 'recipes',
             key: 'id',
         },
         onDelete: 'CASCADE',
@@ -39,6 +39,6 @@ Review.init( {
 },{
 sequelize,
 modelName:'Review',
-tableName:'Review',
+tableName:'reviews',
 timestamps:true,
 });

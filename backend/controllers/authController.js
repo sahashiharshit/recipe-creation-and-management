@@ -43,18 +43,18 @@ export const login = async(req,res)=>{
         return res.status(401).json({ error: "Invalid email or password" });
       }
       //check if user is admin
-      const isAdmin = await Userauthentication.checkAdmin(user.id);
+      // const isAdmin = await Userauthentication.checkAdmin(user.id);
       const token = generateToken({
         id: user.id,
         email: user.email,
-        isAdmin: !!isAdmin,
+        
       });
       res.cookie("token",token,{
         httpOnly:true,
         secure:true,
         sameSite:'None',
       });
-      res.status(200).json({ message: "Login succesful",user: { id: user.id, username: user.username, isAdmin: user.isAdmin } } );
+      res.status(200).json({ message: "Login succesful",user: { id: user.id, username: user.username } } );
     } catch (error) {
       const error_code = await ErrorChecker.error_code(error);
       console.log(error);
