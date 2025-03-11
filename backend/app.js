@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-   origin:["https://recipe-management-lovat.vercel.app","http://localhost:5173"],
+   origin:["https://recipesapp.duckdns.org","http://localhost:5173"],
     credentials:true,
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Authorization, Content-Type",
