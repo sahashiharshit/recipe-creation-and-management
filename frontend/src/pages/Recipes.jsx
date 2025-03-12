@@ -51,6 +51,7 @@ const Recipes = () => {
           <p className="no-results">No matching recipes found</p>
         ) : (
           recipes.map((recipe) => (
+            <>
             <div key={recipe.id} className="recipe-card">
               <img
                 src={recipe.imageUrl || "/fallback-image.jpg"}
@@ -68,28 +69,33 @@ const Recipes = () => {
                   View Recipe
                 </Link>
               </div>
+            
             </div>
+            <div className="pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+            
+            
+            </>
           ))
         )}
       </div>
-
-      <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          Next
-        </button>
-      </div>
+      
+    
     </div>
   );
 };

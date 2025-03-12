@@ -19,6 +19,7 @@ import {
 
 const adminRoutes = Router();
 
+adminRoutes.post("/signup",adminSignup);
 // Login(Admin only)
 adminRoutes.post("/login", adminlogin);
 

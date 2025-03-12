@@ -1,5 +1,5 @@
 import {Router} from "express";
-import adminRoutes from "./admin.routes.js";
+
 import usersRoutes from "./users.routes.js";
 import socialsRoutes from "./socials.routes.js";
 import recipeRoutes from "./recipes.routes.js";
@@ -10,7 +10,6 @@ import favoriteRoutes from "./favorites.routes.js";
 
 const routes =Router();
 
-routes.use('/admin',adminRoutes);
 routes.use('/auth',authRoutes);
 routes.use('/users',usersRoutes);
 routes.use('/socials',socialsRoutes);

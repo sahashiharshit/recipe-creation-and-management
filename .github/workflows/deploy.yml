@@ -18,7 +18,13 @@ jobs:
           cd frontend
           npm install
           npm run build
-
+      
+      - name: Install and Build Admin Frontend
+        run: |
+          cd admin-frontend
+          npm install
+          npm run build
+      
       - name: Install dependencies (Backend)
         run: |
           cd backend
@@ -43,5 +49,12 @@ jobs:
             cd /home/ubuntu/recipe-app/backend
             pm2 stop all || true
             pm2 start app.js --name recipe-backend
+            
+            sudo rm -rf /var/www/html/*
             sudo cp -r /home/ubuntu/recipe-app/frontend/dist/* /var/www/html/
+            
+            sudo rm -rf /var/www/admin/*
+            sudo mkdir -p /var/www/admin
+            sudo cp -r /home/ubuntu/recipe-app/admin-frontend/dist/* /var/www/admin/
+            
             sudo systemctl restart nginx
