@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-   origin:["https://recipesapp.duckdns.org","http://localhost:5173"],
+   origin:["http://recipesapp.duckdns.org"],
     credentials:true,
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Authorization, Content-Type",
@@ -21,11 +21,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api", routes);
-app._router.stack.forEach((r) => {
-  if (r.route && r.route.path) {
-    console.log(r.route.path);
-  }
-});
+
 server.listen(5000, () => {
   console.log(`Server Running at port:`, 5000);
 });
