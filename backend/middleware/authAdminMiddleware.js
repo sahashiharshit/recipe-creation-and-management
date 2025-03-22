@@ -12,10 +12,10 @@ export const adminAuthMiddleware = async (req, res, next) => {
     const decoded = verifyToken(token);
 
     const admin = await User.findByPk(decoded.id); // Find admin by ID
-   
+    await admin.reload();
     if (!admin) return res.status(403).json({ message: "Access denied" });
 
-    req.admin = { id: admin.id, username: admin.username, role: decoded.role };
+    req.admin = { id: admin.id, username: admin.username, role: admin.role };
   
     next();
   } catch (error) {

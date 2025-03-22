@@ -56,9 +56,12 @@ export const adminlogin = async (req, res) => {
 export const adminProfile = async (req, res) => {
   try {
     const {id,username,role} = req.admin;
- 
-    
-    res.status(200).json({ id, username,role });
+    const user = await User.findByPk(id);
+    await user.reload();
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ id, username,role:user.role });
   } catch (error) {
     const error_code = await ErrorChecker.error_code(error);
    
