@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-   origin:["https://recipesapp.duckdns.org","https://admin-recipesapp.duckdns.org","http://localhost:5050","http://localhost:5173"],
+   origin:["https://recipesapp.duckdns.org","https://admin-recipesapp.duckdns.org"],
     credentials:true,
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Authorization, Content-Type",
