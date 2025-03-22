@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh; /* Fixed height to fill the screen */
   background-color: var(--bg-color);
   padding: 2rem;
 }
@@ -15,7 +15,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   text-align: center;
 }
 
@@ -24,8 +24,6 @@
   color: var(--text-color);
   margin-bottom: 1rem;
 }
-
-
 
 .input-group {
   margin-bottom: 1rem;
@@ -38,9 +36,9 @@
   background: var(--input-bg);
   padding: 0.75rem;
   border-radius: 8px;
- 
   transition: border 0.3s ease;
 }
+
 .input-container:focus-within {
   border-color: var(--link-color); /* Highlight on focus */
 }
@@ -53,7 +51,7 @@ input {
   border: none;
   outline: none;
   padding: 0.75rem;
-  flex: 1;
+  flex: 2;
   background-color: var(--bg-color);
   font-size: 1rem;
   color: var(--text-color);
@@ -62,6 +60,27 @@ input:focus {
   outline: none;
 }
 
+/* ✅ Phone Group Styles */
+.phone-group {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Fixed width to ensure full width usage */
+}
+
+.country-code-select {
+  padding: 0.75rem;
+  border: none;
+  background: #f9f9f9;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.phone-group input {
+  flex: 1;
+  
+}
+
+/* ✅ Button Styles */
 .auth-btn {
   background-color: var(--button-bg);
   color: var(--button-text);
@@ -81,6 +100,7 @@ input:focus {
 .auth-btn:active {
   transform: scale(0.98); /* Slight click effect */
 }
+
 .auth-footer {
   margin-top: 1rem;
   font-size: 0.9rem;
@@ -96,9 +116,22 @@ input:focus {
   text-decoration: underline;
 }
 
-/* Responsive Styles */
+/* ✅ Responsive Styles */
 @media (max-width: 480px) {
   .auth-card {
     padding: 1.5rem;
+  }
+  .phone-group {
+    flex-direction: column;
+  }
+  .country-code-select {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+  }
+  .phone-group input {
+    border-radius: 0 0 8px 8px;
+  }
+  .auth-btn {
+    width: 100%;
   }
 }

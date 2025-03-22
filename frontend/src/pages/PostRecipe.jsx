@@ -1,19 +1,22 @@
 /* eslint-disable no-unused-vars */
+import levenshtein from "fast-levenshtein";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/PostRecipe.css";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 import { API_BASE_URL } from "../utils/config";
+
 const PostRecipe = () => {
   const navigate = useNavigate();
+
   const [recipe, setRecipe] = useState({
     title: "",
     description: "",
     ingredients: [],
     instructions: "",
     cookingTime: "",
-    category: "",
+    categoryId: "",
     imageUrl: "",
   });
 
@@ -21,24 +24,25 @@ const PostRecipe = () => {
   const [preview, setPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [categories,setCategories]= useState([]);
-  const [selectedCategory,setSelectedCategory]= useState(null);
-  
-  useEffect(()=>{
-  const fetchCategories=async()=>{
-    try {
-      const response = await axios.get(`${API_BASE_URL}/api/recipes/categories`);
-     
-      setCategories(response.data);
-    } catch (error) {
-      showErrorToast("⚠️ Failed to load categories");
-    }
-  
-  }
-  fetchCategories();
-    
-  },[]);
-  
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [newCategory, setNewCategory] = useState("");
+
+  // 🎯 Fetch existing categories on load
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/api/recipes/categories`
+        );
+        setCategories(response.data);
+      } catch (error) {
+        showErrorToast("⚠️ Failed to load categories");
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const handleChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
   };
@@ -56,7 +60,7 @@ const PostRecipe = () => {
       setIngredient({ name: "", quantity: "" }); // Clear input after adding
     }
   };
-  
+
   const removeIngredient = (index) => {
     setRecipe({
       ...recipe,
@@ -87,7 +91,7 @@ const PostRecipe = () => {
       );
 
       const { uploadUrl, fileUrl } = data; // Pre-signed S3 URL & final file URL
-     
+
       // Step 2: Upload image to S3 using the pre-signed URL
       await axios.put(uploadUrl, imageFile, {
         headers: { "Content-Type": imageFile.type },
@@ -95,7 +99,6 @@ const PostRecipe = () => {
       setUploading(false);
       return fileUrl; //return the stord S3 url
     } catch (error) {
-     
       setUploading(false);
       return null;
     }
@@ -110,9 +113,37 @@ const PostRecipe = () => {
       showErrorToast("🚨❌ Error uploading image");
       return;
     }
-
+    let finalCategoryId = selectedCategory;
+    const normalizedNewCategory = newCategory.trim().toLowerCase();
+    if (!selectedCategory && normalizedNewCategory) {
+    const existingCategory = categories.find(
+    (cat)=>
+    cat.category_name.toLowerCase()===normalizedNewCategory|| levenshtein.get(cat.category_name.toLowerCase(),normalizedNewCategory)<=2 ||
+    normalizedNewCategory.includes(cat.category_name.toLowerCase()) || cat.category_name.toLowerCase().includes(normalizedNewCategory)
+    );
+    
+    if(existingCategory){
+    finalCategoryId=existingCategory.id;
+    showSuccessToast(`✅ Using existing category '${existingCategory.category_name}'`);
+    
+    }else{
+      try {
+        const { data } = await axios.post(
+          `${API_BASE_URL}/api/recipes/categories/create`,
+          { category_name: normalizedNewCategory },
+          { withCredentials: true }
+        );
+        finalCategoryId = data.id;
+        showSuccessToast(`✅ New category '${newCategory}' added!`);
+      } catch (error) {
+        showErrorToast("⚠️ Failed to add new category. Please try again.");
+        return;
+      }
+    }
+  }
     const recipeData = {
       ...recipe,
+      categoryId: finalCategoryId,
       imageUrl: s3Url, // Save S3 URL
     };
 
@@ -123,7 +154,7 @@ const PostRecipe = () => {
       showSuccessToast("📦✅ Recipe added successfully!");
       navigate("/");
     } catch (error) {
-      showErrorToast("🚨❌ Error adding Recipe. Please try again!")
+      showErrorToast("🚨❌ Error adding Recipe. Please try again!");
     }
   };
 
@@ -144,7 +175,12 @@ const PostRecipe = () => {
             {recipe.ingredients.map((item, index) => (
               <li key={index}>
                 {item.name} - {item.quantity}
-                <button onClick={() => removeIngredient(index)} className="remove-btn">❌</button>
+                <button
+                  onClick={() => removeIngredient(index)}
+                  className="remove-btn"
+                >
+                  ❌
+                </button>
               </li>
             ))}
           </ul>
@@ -180,27 +216,27 @@ const PostRecipe = () => {
           onChange={handleChange}
           required
         />
-        {/* <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          onChange={handleChange}
-          required
-        /> */}
-        <select 
-        value={selectedCategory || ""}
-        onChange={(e)=>setSelectedCategory(e.target.value)}
-        className="categories">
-        <option value="">Select</option>
-        {
-          categories.map((category)=>(
-          <option key={category.id} value={category.id}>
-          {category.category_name}
-          </option>
-          
-          ))
-        }
+
+        <select
+          value={selectedCategory || ""}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="categories"
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.category_name}
+            </option>
+          ))}
         </select>
+
+        <input
+          type="text"
+          name="newCategory"
+          placeholder="Or add a new category"
+          value={newCategory}
+          onChange={(e) => setNewCategory(e.target.value)}
+        />
         {/* Ingredient Inputs */}
         <div className="ingredient-input">
           <input

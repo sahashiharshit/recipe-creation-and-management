@@ -135,7 +135,7 @@
 
 .recipe-modal-container {
   width: 90vw;
-  max-width: 600px;
+  max-width: 700px;
   max-height: 80vh;
   background: var(--modal-bg);
   color: var(--text-color);
@@ -145,7 +145,11 @@
   position: relative;
   overflow-y: auto;
 }
-
+.recipe-image-container img{
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+}
 /* Scrollbar Styling */
 .recipe-modal-container::-webkit-scrollbar {
   width: 6px;
@@ -254,21 +258,4 @@
   }
 }
 
-/* Dark Mode Variables */
-.dark-mode {
-  --bg-color: #121212;
-  --text-color: #e5e5e5;
-  --card-bg: #1e1e1e;
-  --sidebar-bg: #1c1c1c;
-  --sidebar-text: #ffffff;
-  --sidebar-hover: #292929;
-  --modal-bg: #1e1e1e;
-  --primary-color: #1e90ff;
-  --success-color: #28a745;
-  --gray-color: #6c757d;
-  --danger-color: #dc3545;
-  --border-color: #444;
-  --input-bg: #1e1e1e;
-  --scrollbar-track: #333;
-  --scrollbar-thumb: #555;
-}
+

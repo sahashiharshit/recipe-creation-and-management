@@ -1,13 +1,16 @@
 import { User } from "../models/User.js";
-import { Admin } from "../models/Admin.js";
+
 class Userauthentication {
-  login = async (email, password) => {};
-  register = async (username, email, hashedpassword) => {
+ 
+  register = async (username, email, password,otp,otpExpiresAt) => {
     try {
       const user = await User.create({
         username,
         email,
-        password: hashedpassword,
+        password,
+        otp,
+        otpExpiresAt,
+        isVerified:false,
       });
       return user;
     } catch (error) {
@@ -15,11 +18,10 @@ class Userauthentication {
     }
   };
 
-  getUsers = async () => {};
-  getUserById = async (id) => {};
+ 
   getUserByEmail = async (email) => {
     try {
-        return await User.findOne({where:{email:email}});
+        return await User.findOne({where:{email}});
     } catch (error) {
         throw error;
     }

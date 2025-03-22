@@ -11,7 +11,7 @@ class RecipeService {
         ingredients: recipe.ingredients,
         instructions: recipe.instructions,
         cookingTime: recipe.cookingTime,
-        category: recipe.category,
+        categoryId: recipe.categoryId,
         imageUrl: recipe.imageUrl,
         userId: recipe.userId,
       });
@@ -23,8 +23,9 @@ class RecipeService {
   getSingleRecipe = async (id) => {
     try {
       const getRecipe = await Recipe.findByPk(id);
-      
-      return getRecipe;
+      const getCategory = await Categories.findByPk(getRecipe.dataValues.categoryId);
+      const category_name = getCategory.category_name;
+      return {...getRecipe.dataValues,category_name};
     } catch (error) {
       throw error;
     }
@@ -58,15 +59,15 @@ class RecipeService {
     }
   
   }
-  getAllRecipes= async(limit,offset,search="",category)=>{
+  getAllRecipes= async(limit,offset,search="",categoryId)=>{
     try {
         const whereClause = {isApproved:true};
       if(search){
         whereClause.title={[Op.iLike]:`%${search}%`};
         
       }
-      if(category && category!=="All"){
-        whereClause.categoryId=category;
+      if(categoryId && categoryId!=="All"){
+        whereClause.categoryId=categoryId;
       }
        const {count,rows} = await Recipe.findAndCountAll({
        where:whereClause,
@@ -99,6 +100,7 @@ class RecipeService {
   
   postReview = async (comment,rating,userId,recipeId)=>{
   try {
+    console.log(rating,comment,userId,recipeId)
     const review = await Review.create({
     rating:rating,
     comment:comment,

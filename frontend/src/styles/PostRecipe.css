@@ -7,6 +7,7 @@
   padding: 2rem;
   max-width: 1200px;
   margin: auto;
+ 
 }
 
 /* Left Section: Image & Ingredients */
@@ -18,7 +19,7 @@
   background: var(--bg-color);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recipe-image {
@@ -39,6 +40,7 @@
   object-fit: cover;
 }
 
+/* Ingredients List */
 .ingredients-list {
   margin-top: 1.5rem;
   width: 100%;
@@ -60,9 +62,29 @@
   padding: 0.5rem 1rem;
   border-radius: 5px;
   margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Right Section: Form */
+/* Remove Ingredient Button */
+.remove-btn {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.remove-btn:hover {
+  background: var(--button-hover);
+}
+
+/* Right Section: Recipe Form */
 .recipe-form {
   flex: 1;
   display: flex;
@@ -71,7 +93,7 @@
   background: var(--bg-color);
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recipe-form h2 {
@@ -82,32 +104,65 @@
 }
 
 .recipe-form input,
-.recipe-form textarea {
+.recipe-form textarea,
+.categories {
   width: 100%;
+  
   padding: 0.8rem;
   background-color: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 5px;
   font-size: 1rem;
-  font-family: "Inter", sans-serif;
+
 }
-.categories{
-  width: 100%;
-  padding: 0.8rem;
+
+/* Category Dropdown */
+.categories {
+  cursor: pointer;
+  appearance: none;
+  max-width: 100%;
   background-color: var(--bg-color);
+  padding: 0.8rem;
   border: 1px solid var(--border-color);
   border-radius: 5px;
   font-size: 1rem;
-  font-family: "Inter", sans-serif;
-
-
+  color: var(--text-color);
+  outline: none;
+  box-sizing: border-box;
+}
+.categories option{
+max-width: 100%;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.categories option:hover {
+  overflow: visible;
+  white-space: normal;
+  background-color: var(--button-hover);
+}
+/* Style dropdown arrow */
+.categories::-ms-expand {
+  display: none;
 }
 
+.categories:focus {
+  border-color: var(--button-hover);
+}
+
+/* Dropdown hover effect */
+.categories:hover {
+  background-color: var(--button-hover);
+ 
+}
+
+/* Textarea */
 .recipe-form textarea {
   height: 100px;
   resize: none;
 }
 
+/* Ingredient Input */
 .ingredient-input {
   display: flex;
   gap: 0.5rem;
@@ -117,9 +172,10 @@
   flex: 1;
 }
 
+/* Add Ingredient Button */
 .add-ingredient {
-  background: var(--bg-color);
-  color: var(--text-color);
+  background: var(--button-bg);
+  color: var(--button-text);
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -132,6 +188,7 @@
   background: var(--button-hover);
 }
 
+/* Submit Button */
 .recipe-form button {
   background: var(--button-bg);
   color: var(--button-text);
@@ -146,21 +203,6 @@
 .recipe-form button:hover {
   background: var(--button-hover);
 }
-.remove-btn {
-  background:var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  margin-left: 10px;
-  cursor: pointer;
-  padding: 0.3rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  transition: background 0.3s;
-}
-
-.remove-btn:hover {
-  background: var(--button-hover);
-}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -173,5 +215,30 @@
   .recipe-form {
     width: 100%;
     max-width: 500px;
+  }
+
+  .recipe-image {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-recipe-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .recipe-form {
+    padding: 1.5rem;
+  }
+
+  .recipe-image {
+    height: 180px;
+  }
+
+  .add-ingredient,
+  .recipe-form button {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
   }
 }

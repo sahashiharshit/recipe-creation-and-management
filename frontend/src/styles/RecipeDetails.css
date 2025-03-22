@@ -146,7 +146,7 @@
 .comment-username {
   font-size: 14px;
   font-weight: bold;
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .rating-form {

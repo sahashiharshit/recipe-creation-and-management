@@ -1,4 +1,7 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react-refresh/only-export-components */
+
+
 import axios from "axios";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -15,34 +18,42 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchUser = useCallback(async (attempt = 1) => {
+    
     try {
       const response = await axios.get(`${API_BASE_URL}/api/users/profile`, {
         withCredentials: true, // Ensure cookies are sent
+        
+        validateStatus:(status)=>status===200 || status===401,
       });
-    
-      if (response.data) {
-        setUser(response.data);
-      } else {
-        throw new Error("No user found");
+    if(response.status===200){
+      setUser(response.data);
       }
-    } catch (error) {
-      if (attempt < 3) {
-        console.log(`Retrying fetch user... Attempt ${attempt}`);
-        setTimeout(() => fetchUser(attempt + 1), 1000); // Retry after 1 sec
-      } else {
-        setUser(null);
-      }
-    } finally {
-      setLoading(false);
+    else{
+      setUser(null);
     }
+      
+    } catch {
+     
+       if (attempt < 3) {
+     
+        setTimeout(() => fetchUser(attempt + 1), 1000); // Retry after 1 sec
+      } else{
+        setUser(null);
+   
+      }
+    } finally{
+    setLoading(false);
+    }
+    
+  
   },[]);
   useEffect(() => {
     
-
     fetchUser();
-  }, [fetchUser]);
+    
+  }, [fetchUser,]);
   
-  
+   
   // ✅ Login function with error handling
   const login = useCallback(
     async (email, password) => {
@@ -56,11 +67,12 @@ export const AuthProvider = ({ children }) => {
 
         return { success: true }; // 🔹 Return success
       } catch (error) {
-        showErrorToast("Login Failed");
+       console.log(error);
         return {
         
           success: false,
           error: error.response?.data?.message || "Login failed",
+          error_code:error.response?.status||500,
         };
       }
     },
@@ -93,7 +105,7 @@ export const AuthProvider = ({ children }) => {
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-// eslint-disable-next-line react-refresh/only-export-components
+ 
 export const useAuth = () => { 
 
 const context = useContext(AuthContext);

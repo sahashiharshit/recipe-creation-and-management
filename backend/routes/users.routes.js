@@ -6,6 +6,9 @@ import UsersService from "../helpers/UsersService.js";
 
 import {
   anotherUserProfile,
+  followers,
+  following,
+  getUserById,
   getUserProfile,
   myRecipes,
   uploadProfilePic,
@@ -17,10 +20,11 @@ usersRoutes.get("/my-recipes",authMiddleware,myRecipes);
 usersRoutes.get("/profile", authMiddleware, getUserProfile);
 
 //update user profile
-usersRoutes.put("/profile");
+
 
 //view another user's profile
-usersRoutes.get("/:id", authMiddleware, anotherUserProfile);
+usersRoutes.get("/profile/:id", authMiddleware, anotherUserProfile);
+
 
 
 usersRoutes.post(
@@ -32,8 +36,8 @@ usersRoutes.post(
 
 
 //Get a user's followers
-usersRoutes.get("/:id/followers", (req, res) => {});
+usersRoutes.get("/followers", authMiddleware,followers);
+usersRoutes.get("/followed",authMiddleware,following);
+usersRoutes.get("/:id",authMiddleware,getUserById);
 
-//Get users a person follows
-usersRoutes.get("/:id/following", (req, res) => {});
 export default usersRoutes;

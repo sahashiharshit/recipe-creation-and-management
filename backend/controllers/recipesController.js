@@ -5,26 +5,27 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import { User } from "../models/User.js";
+import { Categories } from "../models/Categories.js";
 dotenv.config();
 //Create a new recipe
 export const createRecipe = async (req, res) => {
   try {
     const recipeData = req.body;
-    console.log(recipeData);
+    console.log(recipeData)
     const userId = req.user.id;
     const recipes = { ...recipeData, userId };
     const createdRecipe = await RecipeService.createRecipe(recipes);
     res.status(200).json(createdRecipe);
   } catch (error) {
-    console.log(error);
+    
     const error_code = await ErrorChecker.error_code(error);
     res.status(error_code).json(error);
   }
 };
 
 export const uploadS3Url = async (req, res) => {
-  const { filename, filetype, id } = req.query;
-
+  const { filename, filetype} = req.query;
+  const id = req.user.id;
   const key = `recipes/${id}-${Date.now()}-${filename}`;
   const command = new PutObjectCommand({
     Bucket: process.env.AWS_S3_BUCKETNAME,
@@ -46,10 +47,12 @@ export const uploadS3Url = async (req, res) => {
 //Get all recipes
 export const getRecipes = async (req, res) => {
   try {
-    const { page = 1,search="",category="All" } = req.query;
+    const { page = 1,search="",categoryId="All" } = req.query;
+    console.log(categoryId);
     const limit = 9;
     const offset = (page - 1) * limit;
-    const allRecipes = await RecipeService.getAllRecipes(limit, offset,search,category);
+    const allRecipes = await RecipeService.getAllRecipes(limit, offset,search,categoryId);
+    
     res.status(200).json(allRecipes);
   } catch (error) {
     const error_code = await ErrorChecker.error_code(error);
@@ -132,10 +135,12 @@ export const postReview = async (req, res) => {
   const { recipeId } = req.params;
   const userId = req.user.id;
   const {rating,comment} = req.body;
+  // console.log(rating,comment,userId,recipeId)
   try {
     const review = await RecipeService.postReview(comment,rating,userId,recipeId);
     res.status(200).json(review);
   } catch (error) {
+  console.log(error);
     const error_code = await ErrorChecker.error_code(error);
     res.status(error_code).json(error);
   }
@@ -152,4 +157,23 @@ try {
 }
 
 
+
 };
+
+export const createCategories = async(req,res)=>{
+const {category_name}= req.body;
+
+const existingCategory= await Categories.findOne({
+
+where:{category_name},
+
+});
+
+if(existingCategory){
+
+  return res.status(400).json({error:"Category alreadt exists"});
+}
+
+const newCategory = await Categories.create({category_name});
+res.status(201).json({id:newCategory.id,category_name:newCategory.category_name});
+}

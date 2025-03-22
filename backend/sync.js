@@ -1,13 +1,13 @@
 import sequelize from "./config/database.js";
-import {User,Recipe,Review,Admin,Follow,Favorite} from './config/associations.js';
+import {User,Recipe,Review,Follow,Favorite,Categories} from './config/associations.js';
 
 (async()=>{
 
     try{
         await sequelize.sync({alter:true});
         await User.sync();
-        await Admin.sync();
         await Recipe.sync();
+        await Categories.sync();
         await Favorite.sync();
         await Review.sync();
         await Follow.sync();

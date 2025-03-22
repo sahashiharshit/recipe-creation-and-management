@@ -14,6 +14,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "./context/AuthContext";
 import { useEffect, useState } from "react";
+import VerifyOtp from "./pages/verify-otp";
+import UserProfileView from "./pages/UserProfileView";
 
 const App = () => {
   const { loading } = useAuth(); // Track authentication loading state
@@ -32,7 +34,7 @@ const App = () => {
         <Route path="/" element={<Recipes />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
+        <Route path="/verify-otp" element={<VerifyOtp />} /> 
         {/* Protected Routes (Only logged-in users) */}
 
         <Route element={<ProtectedRoute />}>
@@ -40,6 +42,7 @@ const App = () => {
           <Route path="/recipe/:id" element={<RecipeDetails />} />
           <Route path="/edit-recipe/:id" element={<UpdateRecipe />} />
           <Route path="/post-recipe" element={<PostRecipe />} />
+          <Route path="/user/:id" element={<UserProfileView/>}/>
         </Route>
 
         

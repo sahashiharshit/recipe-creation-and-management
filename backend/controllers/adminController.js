@@ -1,26 +1,36 @@
 import encryptionservice from "../helpers/Encryptionservice.js";
 import ErrorChecker from "../helpers/ErrorChecker.js";
-import { Admin } from "../models/Admin.js";
+;
 import { User } from "../models/User.js";
 import { Recipe } from "../models/Recipe.js";
 import jwt from "jsonwebtoken";
-import { generateRefreshToken, generateTokenForAdmin } from "../config/jwthelper.js";
+import { generateToken } from "../config/jwthelper.js";
 const JWT_SECRET = process.env.JWT_SECRET;
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_SECRET;
+
+
+export const adminSignup= async(req,res)=>{
+
+}
+
 // Login(Admin only)
+
+
 export const adminlogin = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const admin = await Admin.findOne({ where: { username } });
+    const user = await User.findOne({ where: { username } });
 
-    if (!admin) {
-      return res.status(401).json({ error: "Invalid username or password" });
+    if (!user) {
+      return res.status(401).json({ error: "User doesn't exist" });
+    }
+    else if(!(user.role="admin"||"superadmin")){
+      return res.status(401).json({error:"User is not admin"});
     }
     // Compare passwords
     const isMatch = await encryptionservice.checkPassword(
       password,
-      admin.password
+      user.password
     );
 
     if (!isMatch) {
@@ -28,18 +38,14 @@ export const adminlogin = async (req, res) => {
     }
     
     // Generate JWT token
-    const token =  generateTokenForAdmin(admin);
-    const refreshToken =  generateRefreshToken(admin);
-    res.cookie("token", token, {
+    const token =  generateToken(user);
+    
+    res.cookie("admintoken", token, {
       httpOnly: true,
       secure: true,
       sameSite: "None",
     });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-    });
+  
     
     res.status(200).json({
       message: "Login succesful",
@@ -57,6 +63,7 @@ export const adminProfile = async (req, res) => {
     res.status(200).json({ id: data.adminData.id, role: data.role });
   } catch (error) {
     const error_code = await ErrorChecker.error_code(error);
+   
     res.status(error_code).json(error);
   }
 };
@@ -65,13 +72,13 @@ export const adminProfile = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll(
-      { where: { isApproved: true } },
+      {  },
       { attributes: { exclude: ["password"] } }
     );
-
+  console.log(users);
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(400).json(error);
   }
 };
 
@@ -82,7 +89,7 @@ export const deleteRecipe = async (req, res) => {
     const deletedRecipe = await Recipe.destroy({ where: { id: recipeid } });
     res.json(200).status({ message: "Recipe Deleted" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -92,7 +99,7 @@ export const deleteUser = async (req, res) => {
     await User.destroy({ where: { id: req.params.id } });
     res.json({ message: "User Deleted" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(404).json({ error: error.message });
   }
 };
 
@@ -112,7 +119,7 @@ export const getAllRecipes = async (req, res) => {
     );
     res.status(200).json(getAllRecipes);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -149,21 +156,21 @@ export const approveRecipe = async (req, res) => {
   }
 };
 
-export const pendingUsers = async (req, res) => {
-  try {
-    const users = await User.findAll({ where: { isApproved: false } });
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-};
+// export const pendingUsers = async (req, res) => {
+//   try {
+//     const users = await User.findAll({ });
+//     res.status(200).json(users);
+//   } catch (error) {
+//     res.status(400).json({ error: "Server error" });
+//   }
+// };
 
 export const pendingRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({ where: { isApproved: false } });
     res.json(recipes);
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    res.status(400).json({ error: "Server error" });
   }
 };
 

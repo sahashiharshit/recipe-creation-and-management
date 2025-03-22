@@ -1,0 +1,74 @@
+.verify-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f7f7f7;
+  }
+  
+  .verify-card {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+  }
+  
+  .verify-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .auth-error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .otp-group {
+    margin-bottom: 15px;
+  }
+  
+  .otp-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+  }
+  
+  .verify-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .auth-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .resend-btn {
+    color: #3498db;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .resend-btn:disabled {
+    color: #aaa;
+    cursor: not-allowed;
+  }
+  
+  .resend-text {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  

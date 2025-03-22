@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
+import levenshtein from "fast-levenshtein";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 import { API_BASE_URL } from "../utils/config";
+import "../styles/PostRecipe.css";
 const UpdateRecipe = () => {
   const { id } = useParams();
 
@@ -15,7 +17,7 @@ const UpdateRecipe = () => {
     ingredients: [],
     instructions: "",
     cookingTime: "",
-    category: "",
+    categoryId: "",
     imageUrl: "",
   });
 
@@ -23,8 +25,20 @@ const UpdateRecipe = () => {
   const [preview, setPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null); // Store new image file
   const [uploading, setUploading] = useState(false);
-
+  const [categories, setCategories] = useState([]); // Load categories
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [newCategory, setNewCategory] = useState("");
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/api/recipes/categories`,{withCredentials:true},
+        );
+        setCategories(response.data);
+      } catch (error) {
+        showErrorToast("⚠️ Failed to load categories");
+      }
+    };
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
@@ -33,12 +47,14 @@ const UpdateRecipe = () => {
         );
       
         setRecipe(response.data);
+        setSelectedCategory(response.data.categoryId);
         setPreview(response.data.imageUrl);
       } catch (error) {
         
         showErrorToast("❌⚠️ Error fetching recipe");
       }
     };
+    fetchCategories();
     fetchRecipe();
   }, [id]);
 
@@ -60,6 +76,12 @@ const UpdateRecipe = () => {
       });
       setIngredient({ name: "", quantity: "" });
     }
+  };
+  const removeIngredient = (index) => {
+    setRecipe({
+      ...recipe,
+      ingredients: recipe.ingredients.filter((_, i) => i !== index),
+    });
   };
   // Handle image file selection
   const handleImageChange = (e) => {
@@ -112,9 +134,39 @@ const UpdateRecipe = () => {
           updatedImageUrl = uploadedImageUrl;
         }
       }
-
+      let finalCategoryId = selectedCategory;
+      const normalizedNewCategory = newCategory.trim().toLowerCase();
+  
+      if (!selectedCategory && normalizedNewCategory) {
+        const existingCategory = categories.find(
+          (cat) =>
+            cat.category_name.toLowerCase() === normalizedNewCategory ||
+            levenshtein.get(cat.category_name.toLowerCase(), normalizedNewCategory) <= 2 ||
+            normalizedNewCategory.includes(cat.category_name.toLowerCase()) ||
+            cat.category_name.toLowerCase().includes(normalizedNewCategory)
+        );
+  
+        if (existingCategory) {
+          finalCategoryId = existingCategory.id;
+          showSuccessToast(`✅ Using existing category '${existingCategory.category_name}'`);
+        } else {
+          try {
+            const { data } = await axios.post(
+              `${API_BASE_URL}/api/recipes/categories/create`,
+              { category_name: normalizedNewCategory },
+              { withCredentials: true }
+            );
+            finalCategoryId = data.id;
+            showSuccessToast(`✅ New category '${newCategory}' added!`);
+          } catch (error) {
+            showErrorToast("⚠️ Failed to add new category. Please try again.");
+            return;
+          }
+        }
+      }
       const updatedRecipe = {
         ...recipe,
+        categoryId:finalCategoryId,
         imageUrl: updatedImageUrl,
       };
 
@@ -146,11 +198,18 @@ const UpdateRecipe = () => {
         <div className="ingredients-list">
           <h3>Ingredients</h3>
           <ul>
-            {Array.isArray(recipe.ingredients) && recipe.ingredients.map((item, index) => (
-              <li key={index}>
-                {item.name} - {item.quantity}
-              </li>
-            ))}
+            {Array.isArray(recipe.ingredients) &&
+              recipe.ingredients.map((item, index) => (
+                <li key={index}>
+                  {item.name} - {item.quantity}
+                  <button
+                    onClick={() => removeIngredient(index)}
+                    className="remove-btn"
+                  >
+                    ❌
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
@@ -188,13 +247,28 @@ const UpdateRecipe = () => {
           onChange={handleChange}
           required
         />
+
+        {/* Select existing category */}
+        <select
+          value={selectedCategory || ""}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="categories"
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.category_name}
+            </option>
+          ))}
+        </select>
+
+        {/* Add new category if not found */}
         <input
           type="text"
-          name="category"
-          value={recipe.category}
-          placeholder="Category"
-          onChange={handleChange}
-          required
+          name="newCategory"
+          placeholder="Or add a new category"
+          value={newCategory}
+          onChange={(e) => setNewCategory(e.target.value)}
         />
 
         {/* Ingredient Inputs */}

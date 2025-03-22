@@ -17,6 +17,6 @@ if (loading) {
 
  return user ? <Outlet /> : <Navigate to="/login" replace/>;
 };
-// ✅ Add PropTypes
+
 
 export default ProtectedRoute;

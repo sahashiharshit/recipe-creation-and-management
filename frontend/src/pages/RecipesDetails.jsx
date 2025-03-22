@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaClock, FaUtensils, FaEdit,FaHeart,FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import "../styles/RecipeDetails.css";
 import { showErrorToast } from "../utils/toastUtils";
 import RecipeReviews from "../components/RecipeReviews";
-import StarRatings from "react-star-ratings";
-
+import Rate from "rc-rate";
+import "rc-rate/assets/index.css";
 import { API_BASE_URL } from "../utils/config";
+import LoadingBar from "../components/LoadingBar";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const RecipeDetails = () => {
         const res = await axios.get(`${API_BASE_URL}/api/recipes/${id}`, {
           withCredentials: true,
         });
+       
         if (res.data) {
           setRecipe(res.data);
           const userRes = await axios.get(
@@ -34,13 +36,14 @@ const RecipeDetails = () => {
             }
           );
           if (userRes.data?.id === res.data.userId) {
-            setIsOwner(userRes.data.id); // ✅ Compare userId
+            setIsOwner(true); // ✅ Check if logged-in user owns the recipe
           } else {
+          
             const user = await axios.get(
               `${API_BASE_URL}/api/users/${res.data.userId}`,
               { withCredentials: true }
             );
-           
+          
             setRecipeOwner(user.data);
           }
         } else {
@@ -86,14 +89,14 @@ const RecipeDetails = () => {
       });
     
     }
-    setIsFavorite(!isFavorite);
+    setIsFavorite((prev)=>!prev);
   } catch (error) {
     console.error("Error updating favorite:", error);
   }
   
   };
   
-  if (loading) return <p>Loading recipe details...</p>;
+  if (loading) return <LoadingBar isLoading={true}/>;
 
   return (
     <div className="recipe-details-container">
@@ -113,8 +116,12 @@ const RecipeDetails = () => {
         {recipeOwner && (
           <p className="owner-name">
             Posted By:{" "}
-            {recipeOwner.username.charAt(0).toUpperCase() +
-              recipeOwner.username.slice(1)}
+            <Link
+              to={`/user/${recipe.userId}`} // ✅ Navigate to User Profile
+              className="view-profile-link"
+            >{recipeOwner.username.charAt(0).toUpperCase() +
+              recipeOwner.username.slice(1)}</Link>
+            
           </p>
         )}
       </div>
@@ -131,7 +138,7 @@ const RecipeDetails = () => {
           <p className="no-image">No Image Available</p>
         )}
         <div className="average-rating">
-          <StarRatings rating={Number(averageRating)} starRatedColor="#ffd700" numberOfStars={5} starDimension="24px" starSpacing="2px" />
+          <Rate value={Number(averageRating)} allowHalf style={{fontSize:"30px"}} disabled/>
           <p>({averageRating} out of 5)</p>
         </div>
         
@@ -154,7 +161,7 @@ const RecipeDetails = () => {
         <div className="info-box">
           <FaUtensils className="icon" />
           <p>
-            <strong>Category:</strong> {recipe.category}
+            <strong>Category:</strong> {recipe.category_name}
           </p>
         </div>
       </div>
@@ -190,7 +197,7 @@ const RecipeDetails = () => {
         <h3 className="section-title">Instructions</h3>
         <p className="instructions">{recipe.instructions}</p>
       </div>
-      {!isOwner && (<RecipeReviews recipeId={id} onAverageRatingChange={setAverageRating}/>)
+      {(<RecipeReviews recipe={recipe} onAverageRatingChange={setAverageRating}/>)
        
       }
      

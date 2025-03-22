@@ -4,6 +4,7 @@ import { adminAuthMiddleware } from "../middleware/authAdminMiddleware.js";
 import {
   adminlogin,
   adminProfile,
+  adminSignup,
   approveRecipe,
   approveUser,
   deleteRecipe,
@@ -12,7 +13,7 @@ import {
   getAllUsers,
   logoutAdmin,
   pendingRecipes,
-  pendingUsers,
+ 
   refreshToken,
   viewRecipe,
 } from "../controllers/adminController.js";
@@ -32,10 +33,10 @@ adminRoutes.get("/users", adminAuthMiddleware, getAllUsers);
 
 //Delete a recipe (Admin only)
 
-adminRoutes.delete("/recipes/:id", adminAuthMiddleware, deleteRecipe);
+adminRoutes.delete("/recipe/:id", adminAuthMiddleware, deleteRecipe);
 
 //Delete a user (Admin only)
-adminRoutes.delete("/users/:id", adminAuthMiddleware, deleteUser);
+adminRoutes.delete("/user/:id", adminAuthMiddleware, deleteUser);
 
 //Get all recipes (Admin only)
 adminRoutes.get("/recipes", adminAuthMiddleware, getAllRecipes);
@@ -46,7 +47,7 @@ adminRoutes.put("/approve-user/:id", adminAuthMiddleware, approveUser);
 
 adminRoutes.put("/approve-recipe/:id", adminAuthMiddleware, approveRecipe);
 
-adminRoutes.get("/pending-users", adminAuthMiddleware, pendingUsers);
+//adminRoutes.get("/pending-users", adminAuthMiddleware, pendingUsers);
 
 adminRoutes.get("/pending-recipes", adminAuthMiddleware, pendingRecipes);
 

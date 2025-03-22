@@ -1,10 +1,5 @@
 /* 🌙 Global Styles */
 
-
-
-
-
-
 /* Button Styles */
 .button {
   display: inline-block;
@@ -51,6 +46,7 @@
   font-size: 14px;
   font-weight: bold;
   color: var(--text-color);
+  border: var(--text-color);
   user-select: none;
 }
 
@@ -62,7 +58,8 @@
   position: relative;
   width: 42px;
   height: 22px;
-  background: var(--secondary-color);
+  background: var(--primary-color);
+ 
   border-radius: 50px;
   transition: background 0.3s ease;
 }

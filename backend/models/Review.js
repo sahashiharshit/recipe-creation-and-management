@@ -9,7 +9,7 @@ Review.init( {
         primaryKey: true,
     },
     rating: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
         allowNull: false,
         validate: {
             min: 1,

@@ -79,7 +79,7 @@
 }
 
 .view-button:hover {
-  background: #e64a19;
+  background: var(--button-hover);
 }
 
 /* 🛑 No Results Message */

@@ -1,63 +1,69 @@
 :root {
-    --primary-color: #f97316; /* Vibrant Orange */
-    --secondary-color: #1e293b; /* Dark Blue */
+  /* 🌞 Light Mode */
+  --primary-color: #3d3d3d; /* Neutral Dark Gray */
+  --secondary-color: #f5f5f5; /* Soft Off-White Background */
   
-    /* Light Mode */
-    --bg-color: #f9fafb; /* Softer off-white, better than pure white */
-    --text-color: #1a1a1a; /* Darker gray for improved readability */
-    --button-bg: #4c6ef5; /* Primary button background */
-    --button-text: #1a1a1a; /* Button text */
-    --button-hover: #1e40ef; /* Darker orange on hover */
-    --button-disabled:#ccc;
-    --link-color: #1e40af; /* Deep blue links */
-    --link-hover: #0c3a8c; /* Darker blue on hover */
-    --icon-color: #64748b;
-    --input-bg: #ffffff; /* White input background */
-    --card-bg: #ffffff; /* Card background */
-    
-    --sidebar-bg: #ffffff; /* Light sidebar background */
-    --sidebar-text: #333333; /* Dark text for contrast */
-    --sidebar-hover: #f0f0f0; /* Light gray hover effect */
-    --modal-bg: #ffffff; /* White modal background */
-    --primary-color: #007bff; /* Slightly darker blue for light mode */
-    --success-color: #28a745; /* Keeping success green */
-    --gray-color: #6c757d; /* Neutral gray */
-    --danger-color: #dc3545; /* Keeping danger red */
-    --border-color: #dddddd; /* Light gray borders */
-    --scrollbar-track: #f1f1f1; /* Light gray track */
-    --scrollbar-thumb: #cccccc; /* Medium gray thumb */
-    
-  }
+  --bg-color: #f7f7f7; /* Light Gray Background */
+  --text-color: #1a1a1a; /* Deep Black-Gray for Text */
+  --button-bg: #3b3b3b; /* Darker Gray Button Background */
+  --button-text: #f9f9f9; /* Light Text on Buttons */
+  --button-hover: #f9f9f9; /* Slightly Darker Gray on Hover */
+  --button-disabled: #d6d6d6; /* Muted Gray for Disabled State */
   
-  body.dark-mode {
-    /* Dark Mode */
-    --bg-color: #1a1c23; /* Deep gray-black for less strain */
-    --text-color: #e5e5e5; /* Softer white for readability */
-    --secondary-color: #3b4252; /* Adjusted dark blue for contrast */
-    --button-bg: #80a2ff; /* Keep button bright */
-    --button-text: #ffffff; /* White text for contrast */
-    --button-hover: #1a74e8; /* Slightly brighter orange on hover */
-    --button-disabled: #bbbbbb;
-    --link-color: #80a2ff; /* More readable light blue */
-    --link-hover: #1a73e8; /* Brighter blue hover */
-    --icon-color: #e5e7eb;
-    --input-bg: #1e1e1e; /* Darker input background */
-    --card-bg: #1e1e1e; /* Darker card background */
-    
-    --sidebar-bg: #1c1c1c;
-    --sidebar-text: #ffffff;
-    --sidebar-hover: #292929;
-    --modal-bg: #1e1e1e;
-    --primary-color: #1e90ff;
-    --success-color: #28a745;
-    --gray-color: #6c757d;
-    --danger-color: #dc3545;
-    --border-color: #444;
-   
-    --scrollbar-track: #333;
-    --scrollbar-thumb: #555;
-    
-  }
+  --link-color: #4a4a4a; /* Medium Gray for Links */
+  --link-hover: #1a1a1a; /* Darker Gray for Hover */
+  
+  --icon-color: #6c757d; /* Muted Icon Gray */
+  --input-bg: #ffffff; /* White Input Background */
+  --card-bg: #ffffff; /* White Card Background */
+  
+  --sidebar-bg: #f5f5f5; /* Light Sidebar Background */
+  --sidebar-text: #333333; /* Slightly Darker Sidebar Text */
+  --sidebar-hover: #e5e5e5; /* Soft Gray Hover Effect */
+  
+  --modal-bg: #ffffff; /* White Modal Background */
+  --success-color: #28a745; /* Keeping Green for Success */
+  --gray-color: #6c757d; /* Neutral Gray */
+  --danger-color: #a94442; /* Muted Red for Error */
+  --border-color: #dddddd; /* Light Gray Borders */
+  
+  --scrollbar-track: #f1f1f1; /* Light Gray Track */
+  --scrollbar-thumb: #cccccc; /* Medium Gray Thumb */
+}
+
+body.dark-mode {
+  /* 🌙 Dark Mode */
+  --primary-color: #f5f5f5; /* Darker Neutral Gray */
+  --secondary-color: #1a1a1a; /* Near Black Background */
+  
+  --bg-color: #1a1c23; /* Deep Gray-Black for Less Strain */
+  --text-color: #e5e5e5; /* Softer White for Readability */
+  --button-bg: #4a4a4a; /* Medium Gray for Buttons */
+  --button-text: #ffffff; /* White Text for Contrast */
+  --button-hover: #3b3b3b; /* Slightly Darker Button Hover */
+  --button-disabled: #bbbbbb; /* Muted Disabled Gray */
+  
+  --link-color: #b0b0b0; /* Light Gray Links */
+  --link-hover: #ffffff; /* Bright Hover for Links */
+  
+  --icon-color: #cfcfcf; /* Soft Gray for Icons */
+  --input-bg: #1e1e1e; /* Darker Input Background */
+  --card-bg: #1e1e1e; /* Darker Card Background */
+  
+  --sidebar-bg: #1c1c1c; /* Dark Sidebar Background */
+  --sidebar-text: #e5e5e5; /* Light Sidebar Text */
+  --sidebar-hover: #292929; /* Slightly Lighter Gray for Hover */
+  
+  --modal-bg: #1e1e1e; /* Darker Modal Background */
+  --success-color: #28a745; /* Keeping Green for Success */
+  --gray-color: #6c757d; /* Neutral Gray */
+  --danger-color: #a94442; /* Muted Red for Error */
+  --border-color: #444444; /* Darker Border for Dark Mode */
+  
+  --scrollbar-track: #333333; /* Dark Gray Track */
+  --scrollbar-thumb: #555555; /* Medium Gray Thumb */
+}
+
 
     * {
         transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;

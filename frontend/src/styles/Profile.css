@@ -1,4 +1,4 @@
-
+/* 📚 Profile Page Styles */
 .dashboard-container {
   display: flex;
   gap: 20px;
@@ -7,6 +7,7 @@
   min-height: 100vh;
 }
 
+/* 🔹 Sidebar Profile */
 .sidebar-profile {
   background: var(--bg-color);
   border-radius: 12px;
@@ -16,6 +17,7 @@
   text-align: center;
 }
 
+/* 🖼️ Profile Image */
 .profile-image-container {
   position: relative;
   width: 100px;
@@ -31,6 +33,7 @@
   border: 3px solid var(--border-color);
 }
 
+/* 📸 Upload Icon */
 .upload-icon {
   position: absolute;
   bottom: 5px;
@@ -46,6 +49,7 @@
   display: none;
 }
 
+/* 📝 Profile Name & Email */
 .profile-name {
   font-size: 1.5rem;
   margin-top: 10px;
@@ -56,6 +60,7 @@
   color: var(--text-color);
 }
 
+/* 📚 Sidebar Menu */
 .menu {
   display: flex;
   flex-direction: column;
@@ -64,7 +69,7 @@
 }
 
 .menu button {
-  background: none;
+  background: var(--button-bg);
   border: none;
   font-size: 1rem;
   padding: 10px;
@@ -73,11 +78,14 @@
   border-radius: 8px;
 }
 
-.menu button.active, .menu button:hover {
+/* 🔥 Menu Active & Hover */
+.menu button.active,
+.menu button:hover {
   background: var(--button-hover);
   color: var(--text-color);
 }
 
+/* 🔹 Content Sections */
 .content-sections {
   flex-grow: 1;
   display: flex;
@@ -85,6 +93,7 @@
   gap: 20px;
 }
 
+/* Section Hidden/Visible */
 .section {
   display: none;
 }
@@ -93,16 +102,18 @@
   display: block;
 }
 
-/* Recipe Grid */
+/* 🎨 Recipe Grid */
 .recipe-grids {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
 
+/* 📋 Recipe Cards */
 .recipe-cards {
   background: var(--card-bg);
   border-radius: 12px;
+  position: relative;
   padding: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -110,9 +121,10 @@
 }
 
 .recipe-cards:hover {
-  transform: translateY(-5px);
+  transform: scale(1.03);
 }
 
+/* 📝 Recipe Title & Description */
 .recipe-cards h4 {
   font-size: 1rem;
   margin-bottom: 8px;
@@ -123,15 +135,172 @@
   color: var(--text-color);
 }
 
+/* 🎭 Truncate Long Descriptions */
+.truncate {
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  cursor: pointer;
+}
+
+/* 🔍 Tooltip for Full Description */
+.tooltip {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  text-align: left;
+  padding: 8px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 100%; /* Show above the description */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+/* ✅ Show Tooltip on Hover */
+.truncate:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Add space between buttons */
+  margin-top: 10px;
+}
+/* 🔘 Button Styles */
+.view-btn,
+.delete-btn,
+.follow-btn {
+  background: var(--button-bg);
+  border: none;
+  
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.view-btn:hover {
+  background: var(--button-hover);
+  color: var(--text-color);
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+.follow-btn:hover{
+  background: var(--text-color);
+}
+/* 👥 View Profile Button */
+.view-profile-btn {
+  background: var(--button-bg);
+  padding: 8px 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.view-profile-btn:hover {
+  background: var(--text-color);
+}
+
+/* 🎨 Responsive Design */
+
+/* ✅ Large Screens (1200px and above) */
+@media (min-width: 1200px) {
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .recipe-grids {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+/* ✅ Medium Screens (768px to 1199px) */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .dashboard-container {
+    padding: 15px;
+  }
+  .sidebar-profile {
+    width: 250px;
+  }
+  .recipe-grids {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* ✅ Small Screens (768px and below) */
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
     align-items: center;
+    padding: 10px;
   }
+
   .sidebar-profile {
     width: 100%;
+    margin-bottom: 20px;
   }
+
   .content-sections {
     width: 100%;
+    padding: 10px;
+  }
+
+  .recipe-grids {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 15px;
+  }
+
+  .tooltip {
+    bottom: auto;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+  }
+}
+
+/* ✅ Extra Small Screens (480px and below) */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 5px;
+  }
+
+  .menu button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .recipe-cards {
+    padding: 10px;
+  }
+
+  .recipe-cards h4 {
+    font-size: 0.9rem;
+  }
+
+  .recipe-cards p {
+    font-size: 0.8rem;
+  }
+
+  .tooltip {
+    width: 95%;
   }
 }
