@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { act, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAdminAuth } from "../context/AdminAuthContext";
@@ -9,16 +9,18 @@ import { FiLogOut } from "react-icons/fi";
 import RecipeDetailsModal from "../components/RecipeDetailsModal";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 import { API_BASE_URL } from "../utils/config";
+import UserProfileModal from "../components/UserProfileModal";
 
 const AdminDashboard = () => {
   const { admin, adminLogout } = useAdminAuth();
   const [users, setUsers] = useState([]);
   const [recipes, setRecipes] = useState([]);
-  // const [pendingUsers, setPendingUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [pendingRecipes, setPendingRecipes] = useState([]);
   const [activeSection, setActiveSection] = useState("users");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const navigate = useNavigate();
+
   // ✅ Fetch All Users and Recipes
   const fetchData = useCallback(async () => {
     try {
@@ -30,18 +32,16 @@ const AdminDashboard = () => {
       const recipesdata = await axios.get(`${API_BASE_URL}/admin/recipes`, {
         withCredentials: true,
       });
-      
+
       setRecipes(recipesdata.data);
     } catch (error) {
-     console.log(error);
+      console.log(error);
     }
   }, []);
 
   // ✅ Fetch Pending Users and Recipes
   const fetchPendingData = useCallback(async () => {
     try {
-      
-
       const recipesResponse = await axios.get(
         `${API_BASE_URL}/admin/pending-recipes`,
         { withCredentials: true }
@@ -51,6 +51,22 @@ const AdminDashboard = () => {
       showErrorToast("Error in fetching data");
     }
   }, []);
+  const viewUserProfile = async (id) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/admin/user/${id}`, {
+        withCredentials: true,
+      });
+
+      if (response.data) {
+        setSelectedUser(response.data);
+      } else {
+        showErrorToast("User profile not found");
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      showErrorToast("Error fetching user profile");
+    }
+  };
   const handleAction = async (action, id, type) => {
     const urlMap = {
       approveUser: `${API_BASE_URL}/admin/approve-user/${id}`,
@@ -67,8 +83,7 @@ const AdminDashboard = () => {
       });
 
       if (type === "user") {
-        
-           setUsers(users.filter((user) => user.id !== id));
+        setUsers(users.filter((user) => user.id !== id));
       } else if (type === "recipe") {
         action.includes("approve")
           ? setPendingRecipes(
@@ -96,6 +111,9 @@ const AdminDashboard = () => {
       navigate("/");
     }
   }, [admin, navigate, fetchData, fetchPendingData]);
+  
+
+  
   const handleLogout = async () => {
     try {
       await adminLogout();
@@ -123,12 +141,7 @@ const AdminDashboard = () => {
           >
             Recipes
           </li>
-          {/* <li
-            className={activeSection === "pendingUsers" ? "active" : ""}
-            onClick={() => setActiveSection("pendingUsers")}
-          >
-            Pending Users
-          </li> */}
+
           <li
             className={activeSection === "pendingRecipes" ? "active" : ""}
             onClick={() => setActiveSection("pendingRecipes")}
@@ -155,10 +168,46 @@ const AdminDashboard = () => {
               <div key={user.id} className="card">
                 <h4>{user.username}</h4>
                 <p>Email: {user.email}</p>
+                <button onClick={() => viewUserProfile(user.id)}>
+                  View Profile
+                </button>
                 <button
                   onClick={() => handleAction("deleteUser", user.id, "user")}
+                  disabled={
+                    // 🚫 Superadmin cannot delete superadmin or themselves
+                    (admin.role === "superadmin" &&
+                      (user.role === "superadmin" || user.id === admin.id)) ||
+                    // 🚫 Admin cannot delete superadmin or admin or themselves
+                    (admin.role === "admin" &&
+                      (user.role === "superadmin" ||
+                        user.role === "admin" ||
+                        user.id === admin.id))
+                  }
+                  style={{
+                    cursor:
+                      (admin.role === "superadmin" &&
+                        user.role === "superadmin") ||
+                      (admin.role === "admin" &&
+                        (user.role === "superadmin" ||
+                          user.role === "admin" ||
+                          user.id === admin.id))
+                        ? "not-allowed"
+                        : "pointer",
+                    backgroundColor:
+                      (admin.role === "superadmin" &&
+                        user.role === "superadmin") ||
+                      (admin.role === "admin" &&
+                        (user.role === "superadmin" ||
+                          user.role === "admin" ||
+                          user.id === admin.id))
+                        ? "#ccc"
+                        : "var(--danger-color)",
+                  }}
                 >
-                  Delete
+                  {user.role === "superadmin" ||
+                  (admin.role === "admin" && user.role !== "user")
+                    ? "Cannot Delete"
+                    : "Delete"}
                 </button>
               </div>
             ))}
@@ -183,26 +232,7 @@ const AdminDashboard = () => {
             ))}
           </div>
         )}
-        {/* {activeSection === "pendingUsers" && (
-          <div className="card-container">
-            {pendingUsers.map((user) => (
-              <div key={user.id} className="card">
-                <h4>{user.username}</h4>
-                <p>Email: {user.email}</p>
-                <button
-                  onClick={() => handleAction("approveUser", user.id, "user")}
-                >
-                  Approve
-                </button>
-                <button
-                  onClick={() => handleAction("deleteUser", user.id, "user")}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        )} */}
+
         {activeSection === "pendingRecipes" && (
           <div className="card-container">
             {pendingRecipes.map((recipe) => (
@@ -233,6 +263,14 @@ const AdminDashboard = () => {
         <RecipeDetailsModal
           recipe={selectedRecipe}
           onClose={() => setSelectedRecipe(null)}
+        />
+      )}
+
+      {selectedUser && (
+        <UserProfileModal
+          user={selectedUser}
+          onClose={() => setSelectedUser(null)}
+          admin={admin}
         />
       )}
     </div>

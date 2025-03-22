@@ -8,9 +8,6 @@ import { generateToken } from "../config/jwthelper.js";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-export const adminSignup= async(req,res)=>{
-
-}
 
 // Login(Admin only)
 
@@ -20,12 +17,12 @@ export const adminlogin = async (req, res) => {
 
   try {
     const user = await User.findOne({ where: { username } });
-
+    
     if (!user) {
       return res.status(401).json({ error: "User doesn't exist" });
     }
-    else if(!(user.role="admin"||"superadmin")){
-      return res.status(401).json({error:"User is not admin"});
+    else if(!(user.role="admin"|| user.role ==="superadmin")){
+      return res.status(401).json({error:"User is not authorized"});
     }
     // Compare passwords
     const isMatch = await encryptionservice.checkPassword(
@@ -36,7 +33,7 @@ export const adminlogin = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
-    
+    console.log(user.role);
     // Generate JWT token
     const token =  generateToken(user);
     
@@ -58,9 +55,10 @@ export const adminlogin = async (req, res) => {
 
 export const adminProfile = async (req, res) => {
   try {
-    const data = req.admin;
+    const {id,username,role} = req.admin;
+    console.log(role)
     
-    res.status(200).json({ id: data.adminData.id, role: data.role });
+    res.status(200).json({ id, username,role });
   } catch (error) {
     const error_code = await ErrorChecker.error_code(error);
    
@@ -75,7 +73,7 @@ export const getAllUsers = async (req, res) => {
       {  },
       { attributes: { exclude: ["password"] } }
     );
-  console.log(users);
+
     res.status(200).json(users);
   } catch (error) {
     res.status(400).json(error);
@@ -86,7 +84,7 @@ export const getAllUsers = async (req, res) => {
 export const deleteRecipe = async (req, res) => {
   try {
     const recipeid = req.params.id;
-    const deletedRecipe = await Recipe.destroy({ where: { id: recipeid } });
+     await Recipe.destroy({ where: { id: recipeid } });
     res.json(200).status({ message: "Recipe Deleted" });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -95,9 +93,37 @@ export const deleteRecipe = async (req, res) => {
 
 //Delete a user (Admin only)
 export const deleteUser = async (req, res) => {
+const {id,role}=req.admin;
   try {
-    await User.destroy({ where: { id: req.params.id } });
-    res.json({ message: "User Deleted" });
+    const userToDelete = await User.findByPk(req.params?.id);
+    if(!userToDelete){
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    if (role === "superadmin" && userToDelete.role === "superadmin") {
+      return res.status(403).json({
+        message: "Superadmin cannot delete other superadmins.",
+      });
+    }
+    if (
+      role === "admin" &&
+      (userToDelete.role === "superadmin" ||
+        userToDelete.role === "admin" ||
+        userToDelete.id === id)
+    ) {
+      return res.status(403).json({
+        message: "Admin cannot delete superadmins, admins, or themselves.",
+      });
+      
+      }
+      if (role === "superadmin" && userToDelete.id === id) {
+        return res.status(403).json({
+          message: "Superadmin cannot delete their own account.",
+        });
+      }
+  
+    await userToDelete.destroy();
+    res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -124,7 +150,7 @@ export const getAllRecipes = async (req, res) => {
 };
 
 export const logoutAdmin = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("admintoken");
   res.json({ message: "Logged out" });
 };
 
@@ -156,14 +182,6 @@ export const approveRecipe = async (req, res) => {
   }
 };
 
-// export const pendingUsers = async (req, res) => {
-//   try {
-//     const users = await User.findAll({ });
-//     res.status(200).json(users);
-//   } catch (error) {
-//     res.status(400).json({ error: "Server error" });
-//   }
-// };
 
 export const pendingRecipes = async (req, res) => {
   try {
@@ -204,3 +222,68 @@ export const refreshToken = async (req, res) => {
     res.status(403).json({ message: "Invalid refresh token" });
   }
 };
+
+export const getUserDetails=async(req,res)=>{
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: ["id", "username", "email", "createdAt", "role"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+
+}
+
+export const updateUserRole = async(req,res)=>{
+
+  const { userId, newRole } = req.body; // userId and new role
+  const { role } = req.admin;
+  try {
+    // ✅ Check if the logged-in user is a SuperAdmin
+    if (role !== "superadmin") {
+      return res.status(403).json({ error: "Access denied. Only SuperAdmins can modify roles." });
+    }
+
+    // ✅ Check for valid role
+    const validRoles = ["user", "admin", "superadmin"];
+    if (!validRoles.includes(newRole)) {
+      return res.status(400).json({ error: "Invalid role provided." });
+    }
+
+    // ✅ Find the target user
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // ❗️ Prevent self role modification
+    if (user.id === req.admin.id) {
+      return res.status(403).json({ error: "You cannot change your own role." });
+    }
+
+    // ❗️ Prevent downgrading or upgrading other SuperAdmins
+    if (user.role === "superadmin" && newRole !== "superadmin") {
+      return res
+        .status(403)
+        .json({ error: "You cannot modify the role of another SuperAdmin." });
+    }
+
+    // ✅ Allow only valid role changes
+    user.role = newRole;
+    await user.save();
+
+    res.status(200).json({
+      message: `User role updated successfully to ${newRole}`,
+    });
+  } catch (error) {
+    const error_code = await ErrorChecker.error_code(error);
+    res.status(error_code).json({ error: "Error updating user role" });
+  }
+}
