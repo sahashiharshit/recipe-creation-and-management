@@ -22,6 +22,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api", routes);
+
 app.use("/admin",adminRoutes);
 
 server.listen(5000, () => {
