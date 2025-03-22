@@ -4,12 +4,12 @@ import "../styles/UserProfileModal.css";
 import axios from "axios";
 import { API_BASE_URL } from "../utils/config";
 import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
-import { FaCross } from "react-icons/fa";
+
 
 const UserProfileModal = ({ user, onClose,admin }) => {
     const [updatedRole, setUpdatedRole] = useState(user.role);
     const [loading, setLoading] = useState(false);
-    console.log(admin.role)
+    
   if (!user) return null;
   const handleRoleUpdate = async () => {
     if (user.role === updatedRole) {

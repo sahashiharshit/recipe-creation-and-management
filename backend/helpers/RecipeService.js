@@ -100,7 +100,7 @@ class RecipeService {
   
   postReview = async (comment,rating,userId,recipeId)=>{
   try {
-    console.log(rating,comment,userId,recipeId)
+
     const review = await Review.create({
     rating:rating,
     comment:comment,

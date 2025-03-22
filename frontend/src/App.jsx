@@ -16,6 +16,7 @@ import { useAuth } from "./context/AuthContext";
 import { useEffect, useState } from "react";
 import VerifyOtp from "./pages/verify-otp";
 import UserProfileView from "./pages/UserProfileView";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const { loading } = useAuth(); // Track authentication loading state
@@ -45,7 +46,8 @@ const App = () => {
           <Route path="/user/:id" element={<UserProfileView/>}/>
         </Route>
 
-        
+      {/* 404 Route */}
+      <Route path="*" element={<NotFound />} />
 
       </Routes>
       {/* Toast Container (Must be included once in App.jsx) */}

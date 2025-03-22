@@ -7,7 +7,7 @@ export const adminAuthMiddleware = async (req, res, next) => {
   if (!token) {
     return res.status(403).json({ error: "Unauthorized. No token provided." });
   }
-  //console.log(token)
+
   try {
     const decoded = verifyToken(token);
 

@@ -61,8 +61,7 @@ export const uploadProfilePic = async (req, res) => {
       };
       try {
         await s3.send(new DeleteObjectCommand(deleteParams));
-        console.log("Old profile picture deleted from S3");
-      } catch (deleteError) {
+       } catch (deleteError) {
         console.error("Error deleting old profile picture:", deleteError);
       }
     }

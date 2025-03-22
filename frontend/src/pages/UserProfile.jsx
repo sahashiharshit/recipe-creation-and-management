@@ -120,7 +120,7 @@ const UserProfile = () => {
 
       showSuccessToast("🎉 Profile picture submitted successfully!");
     } catch (error) {
-      console.log(error);
+     
       showErrorToast("❌ Profile picture not updated. Try again!");
       setPreview(null);
     } finally {
@@ -385,14 +385,7 @@ const UserProfile = () => {
                   >
                     View Profile
                   </button>
-                  {/* <button
-                    onClick={() =>
-                      handleFollowUnfollow(follower.id, follower.isFollowing)
-                    }
-                    className="follow-btn"
-                  >
-                    {follower.isFollowing ? "Unfollow" : "Follow"}
-                  </button> */}
+                  
                   </div>
                 </div>
               ))

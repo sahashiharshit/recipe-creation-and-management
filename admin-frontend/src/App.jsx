@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import LoadingBar from "./components/LoadingBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NotFound from "../../frontend/src/pages/NotFound";
 
 const App =()=>{
 const {loading} =useAdminAuth();
@@ -30,7 +31,7 @@ return (
 
 <Route path="/" element={<AdminLogin/>}/>
 
-
+<Route path="*" element={<NotFound/>}/>
 </Routes>
 <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
 </>

@@ -102,7 +102,7 @@ try {
 //User login (JWT token)
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email,password)
+  
   try {
     //check if user exist
     const user = await Userauthentication.getUserByEmail(email);

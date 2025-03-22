@@ -35,10 +35,10 @@ const VerifyOtp = () => {
         if (res.status === 200) {
           showSuccessToast("🎉✅ OTP Verified Successfully!");
           localStorage.removeItem("email");
-          navigate("/"); // Redirect to homepage or dashboard
+          navigate("/login"); // Redirect to homepage or dashboard
         }
       } catch (error) {
-        console.error("Error during OTP verification:", error.response?.data?.error);
+        //console.error("Error during OTP verification:", error.response?.data?.error);
         setError(error.response?.data?.error || "Invalid OTP. Please try again.");
         showErrorToast("❌ Invalid OTP! Please check and try again.");
       }
@@ -82,16 +82,7 @@ const VerifyOtp = () => {
             </button>
           </form>
   
-          {/* 🔁 Resend OTP Button */}
-          {/* <p className="resend-text">
-            {resendTimer > 0 ? (
-              `Resend OTP in ${resendTimer}s`
-            ) : (
-              <button onClick={resendOtp} className="resend-btn">
-                Resend OTP
-              </button>
-            )}
-          </p> */}
+         
   
           <p className="auth-footer">
             Didn&apos;t receive OTP?{" "}

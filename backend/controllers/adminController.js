@@ -33,7 +33,7 @@ export const adminlogin = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
-    console.log(user.role);
+    console.log(user);
     // Generate JWT token
     const token =  generateToken(user);
     
@@ -56,7 +56,7 @@ export const adminlogin = async (req, res) => {
 export const adminProfile = async (req, res) => {
   try {
     const {id,username,role} = req.admin;
-    console.log(role)
+ 
     
     res.status(200).json({ id, username,role });
   } catch (error) {

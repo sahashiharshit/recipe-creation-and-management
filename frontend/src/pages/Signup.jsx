@@ -59,7 +59,7 @@ const {user,loading} = useAuth();
         username: res.data.usernameAvailable,
       }));
     } catch (error) {
-      console.log("Error", error);
+      console.error("Error", error);
     }
   };
   // Function to check email availability
@@ -80,7 +80,7 @@ const {user,loading} = useAuth();
       );
       setAvailability((prev) => ({ ...prev, email: res.data.emailAvailable, }));
     } catch (error) {
-      console.log("Error", error);
+      console.error("Error", error);
     }
   };
   const handleChange = async (e) => {

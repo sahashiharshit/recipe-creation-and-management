@@ -70,7 +70,7 @@ const PostRecipe = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      //setRecipe({ ...recipe, imageUrl: file });
+      
       setImageFile(file);
       setPreview(URL.createObjectURL(file)); // Show image preview
     }
