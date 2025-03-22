@@ -4,7 +4,7 @@ import {User,Recipe,Review,Follow,Favorite,Categories} from './config/associatio
 (async()=>{
 
     try{
-        await sequelize.sync({alter:true});
+        await sequelize.sync({force:true});
         await User.sync();
         await Recipe.sync();
         await Categories.sync();
