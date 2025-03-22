@@ -37,6 +37,10 @@ User.init(
     otpExpiresAt: {
       type: DataTypes.DATE,
     },
+    otpType:{
+      type: DataTypes.STRING, // "signup" or "reset"
+      allowNull: true,
+    },
     isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

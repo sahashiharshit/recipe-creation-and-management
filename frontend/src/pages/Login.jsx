@@ -98,6 +98,14 @@ const Login = () => {
         <button type="submit" className="auth-btn">
           Login
         </button>
+        
+         {/* 🛑 Forgot Password Link */}
+         <p className="forgot-password">
+          <a href="/forgot-password" className="auth-link">
+            Forgot Password?
+          </a>
+        </p>
+        
         <p className="auth-footer">
           Don&apos;t have an account?{" "}
           <a href="/signup" className="auth-link">

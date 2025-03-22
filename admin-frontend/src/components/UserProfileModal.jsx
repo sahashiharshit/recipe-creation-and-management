@@ -9,8 +9,9 @@ import { showErrorToast, showSuccessToast } from "../utils/toastUtils";
 const UserProfileModal = ({ user, onClose,admin }) => {
     const [updatedRole, setUpdatedRole] = useState(user.role);
     const [loading, setLoading] = useState(false);
-    
+   
   if (!user) return null;
+  
   const handleRoleUpdate = async () => {
     if (user.role === updatedRole) {
       showErrorToast("No changes made to the role.");
@@ -19,9 +20,10 @@ const UserProfileModal = ({ user, onClose,admin }) => {
 
     try {
       setLoading(true);
-      const response = await axios.put(
-        `${API_BASE_URL}/admin/update-role/${user.id}`,
-        { role: updatedRole },
+      
+      const response = await axios.post(
+        `${API_BASE_URL}/admin/update-role`,
+        { id:user.id,newRole: updatedRole },
         { withCredentials: true }
       );
 

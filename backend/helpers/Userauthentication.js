@@ -2,7 +2,7 @@ import { User } from "../models/User.js";
 
 class Userauthentication {
  
-  register = async (username, email, password,otp,otpExpiresAt) => {
+  register = async (username, email, password,otp,otpExpiresAt,otpType) => {
     try {
       const user = await User.create({
         username,
@@ -10,6 +10,7 @@ class Userauthentication {
         password,
         otp,
         otpExpiresAt,
+        otpType,
         isVerified:false,
       });
       return user;

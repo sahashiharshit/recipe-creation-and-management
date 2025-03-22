@@ -56,6 +56,6 @@ adminRoutes.get("/pending-recipes", adminAuthMiddleware, pendingRecipes);
 
 adminRoutes.get("/view-recipe/:id",adminAuthMiddleware,viewRecipe);
 
-adminRoutes.get("/admin/update-role",adminAuthMiddleware,updateUserRole);
+adminRoutes.post("/update-role",adminAuthMiddleware,updateUserRole);
 
 export default adminRoutes;

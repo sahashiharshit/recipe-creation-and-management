@@ -17,6 +17,9 @@ import { useEffect, useState } from "react";
 import VerifyOtp from "./pages/verify-otp";
 import UserProfileView from "./pages/UserProfileView";
 import NotFound from "./pages/NotFound";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyResetOtp from "./pages/VerifyResetOtp";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   const { loading } = useAuth(); // Track authentication loading state
@@ -36,6 +39,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} /> 
+        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* 🔥 New */}
+        <Route path="/verify-reset-otp" element={<VerifyResetOtp />} /> {/* 🔥 New */}
+        <Route path="/reset-password" element={<ResetPassword />} /> {/* 🔥 New */}
         {/* Protected Routes (Only logged-in users) */}
 
         <Route element={<ProtectedRoute />}>

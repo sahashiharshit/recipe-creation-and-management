@@ -245,8 +245,9 @@ export const getUserDetails=async(req,res)=>{
 }
 
 export const updateUserRole = async(req,res)=>{
-
-  const { userId, newRole } = req.body; // userId and new role
+  
+  const { id,newRole } = req.body; // userId and new role
+  
   const { role } = req.admin;
   try {
     // ✅ Check if the logged-in user is a SuperAdmin
@@ -261,7 +262,7 @@ export const updateUserRole = async(req,res)=>{
     }
 
     // ✅ Find the target user
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
