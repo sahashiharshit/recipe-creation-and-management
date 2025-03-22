@@ -82,9 +82,14 @@
   max-width: 300px;
   justify-content: space-evenly;
 }
-
+.card p,
 .card h4 {
-  margin-bottom: 10px;
+  word-wrap: break-word; /* Ensures long words break properly */
+  overflow-wrap: break-word; /* Breaks words when necessary */
+  max-width: 100%; /* Ensures it fits the container */
+  white-space: nowrap; /* Optional: Keeps it in one line */
+  overflow: hidden; /* Hides the overflow */
+  text-overflow: ellipsis; /* Adds "..." if the text overflows */
 }
 
 /* Card Buttons */
@@ -238,7 +243,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .recipe-details-container {
       max-width: 95%;
       padding: 1rem;
@@ -255,6 +260,11 @@
 
   .recipe-image {
       max-width: 100%;
+  }
+  .card h4,
+  .card p {
+    white-space: normal; /* Wraps text on smaller screens */
+    word-wrap: break-word;
   }
 }
 

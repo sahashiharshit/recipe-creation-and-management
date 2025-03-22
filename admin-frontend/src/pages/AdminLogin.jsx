@@ -73,9 +73,9 @@ const AdminLogin = () => {
         <button type="submit" className="auth-btn">
           Login
         </button>
-        <p className="auth-footer">
+        {/* <p className="auth-footer">
           Don&apos;t have an account? <a href="/signup" className="auth-link">Sign Up</a>
-        </p>
+        </p> */}
       </form>
     </div>
   );

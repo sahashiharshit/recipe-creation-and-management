@@ -26,6 +26,7 @@ export const AdminAuthProvider = ({ children }) => {
       });
       
       if (res.status==200) {
+        
         setAdmin(res.data);
       } else {
        setAdmin(null);
